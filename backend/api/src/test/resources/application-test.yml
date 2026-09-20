@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ${TEST_DATABASE_URL:jdbc:postgresql://localhost:5432/kiwi_finance_test}
+    username: ${TEST_DATABASE_USERNAME:kiwi}
+    password: ${TEST_DATABASE_PASSWORD:kiwi}
+  flyway:
+    clean-disabled: false
+
+kiwi:
+  auth:
+    jwt-secret: dGVzdC1zaWduaW5nLWtleS10aGF0LWlzLWF0LWxlYXN0LTMyLWJ5dGVzLWxvbmc=
+  crypto:
+    active-key-id: test-1
+    keys:
+      test-1: dGVzdC1rZXktMzItYnl0ZXMtZm9yLWFlcy1nY20tISE=
+  akahu:
+    api-url: http://localhost:0/akahu
+    scheduled-sync:
+      enabled: false
+
+logging:
+  level:
+    root: WARN

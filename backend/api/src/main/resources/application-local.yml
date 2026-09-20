@@ -1,0 +1,18 @@
+# Development settings for running the API on a workstation. Secrets here are for local use
+# only and must never be used in a shared or production environment.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kiwi_finance
+    username: kiwi
+    password: kiwi
+
+kiwi:
+  auth:
+    jwt-secret: bG9jYWwtZGV2ZWxvcG1lbnQtc2lnbmluZy1rZXktbm90LWZvci1wcm9kdWN0aW9u
+  crypto:
+    active-key-id: local-1
+    keys:
+      local-1: bG9jYWwtZGV2LWtleS0zMi1ieXRlcy1vbmx5LTEyMzQ=
+  cors:
+    allowed-origins:
+      - http://localhost:3000
