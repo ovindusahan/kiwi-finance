@@ -1,0 +1,136 @@
+{
+  "methods": {
+    "OAUTH": {
+      "title": "Connect with Akahu",
+      "summary": "The quickest way. You'll sign in to Akahu, choose which banks to share, and come straight back.",
+      "estimatedMinutes": 3,
+      "requirements": [
+        "Your internet banking login for each bank you want to connect"
+      ],
+      "steps": [
+        {
+          "id": "connect-with-akahu",
+          "title": "Connect with Akahu",
+          "body": "We'll send you to Akahu, New Zealand's open finance platform. Sign in or create a free account, connect your banks, and approve read-only access for Kiwi Finance.",
+          "tip": "Kiwi Finance never sees your bank password. You sign in to your bank through Akahu.",
+          "links": []
+        },
+        {
+          "id": "choose-accounts",
+          "title": "Choose the accounts to sync",
+          "body": "Pick which accounts Kiwi Finance should follow. You can add a new account here or link one you've been tracking by hand.",
+          "tip": null,
+          "links": []
+        },
+        {
+          "id": "first-sync",
+          "title": "Bring in your transactions",
+          "body": "We'll fetch up to a year of history and sort it into categories. It usually takes less than a minute.",
+          "tip": "After this we check for new transactions automatically several times a day.",
+          "links": []
+        }
+      ]
+    },
+    "PERSONAL_APP": {
+      "title": "Use your own Akahu personal app",
+      "summary": "Free and always available. You create a personal app in Akahu and give Kiwi Finance its two tokens.",
+      "estimatedMinutes": 10,
+      "requirements": [
+        "Your internet banking login for each bank you want to connect",
+        "A phone for Akahu's two-factor sign-in"
+      ],
+      "steps": [
+        {
+          "id": "create-akahu-account",
+          "title": "Create a free Akahu account",
+          "body": "Akahu is a New Zealand open finance platform that connects securely to your bank. Sign up at my.akahu.nz with your email address.",
+          "tip": "Personal apps are free for your own use.",
+          "links": [
+            { "label": "Open my.akahu.nz", "url": "https://my.akahu.nz" }
+          ]
+        },
+        {
+          "id": "connect-banks",
+          "title": "Connect your banks in Akahu",
+          "body": "In Akahu, add each bank or KiwiSaver provider you want to see in Kiwi Finance. You'll sign in to your bank through Akahu's secure connection.",
+          "tip": "Connect every account you use day to day so your spending picture is complete.",
+          "links": []
+        },
+        {
+          "id": "create-personal-app",
+          "title": "Find your personal app tokens",
+          "body": "Open the Developers page in Akahu. Accept the developer terms and turn on two-factor authentication if asked. Your personal app shows two tokens: an App ID Token starting with app_token_ and a User Access Token starting with user_token_.",
+          "tip": "Treat these tokens like a password. Only paste them into Kiwi Finance, and never share them in an email or message.",
+          "links": [
+            { "label": "Open the Akahu Developers page", "url": "https://my.akahu.nz/developers" },
+            { "label": "Akahu's guide to personal apps", "url": "https://developers.akahu.nz/docs/personal-apps" }
+          ]
+        },
+        {
+          "id": "enter-tokens",
+          "title": "Paste your tokens into Kiwi Finance",
+          "body": "Copy both tokens from Akahu and paste them here. We check them with Akahu straight away and store them encrypted.",
+          "tip": null,
+          "links": []
+        },
+        {
+          "id": "choose-accounts",
+          "title": "Choose the accounts to sync",
+          "body": "Pick which accounts Kiwi Finance should follow. You can add a new account here or link one you've been tracking by hand.",
+          "tip": null,
+          "links": []
+        },
+        {
+          "id": "first-sync",
+          "title": "Bring in your transactions",
+          "body": "We'll fetch up to a year of history and sort it into categories. It usually takes less than a minute.",
+          "tip": "Akahu refreshes personal app data from your bank about once a day, and we check for it several times a day.",
+          "links": []
+        }
+      ]
+    }
+  },
+  "attention": {
+    "tokens-rejected": "Akahu has stopped accepting your connection. This happens if the tokens were regenerated or access was revoked. Reconnect to keep your transactions up to date.",
+    "no-accounts": "Akahu didn't share any accounts yet. Connect a bank in Akahu, then sync again.",
+    "sync-failed": "Your last sync didn't finish. You can try again now, or we'll retry at the next scheduled sync."
+  },
+  "security": [
+    {
+      "title": "Read-only access",
+      "body": "Kiwi Finance can see balances and transactions. It cannot move money or make payments."
+    },
+    {
+      "title": "Your bank password stays with your bank",
+      "body": "You sign in to your bank through Akahu. Kiwi Finance never sees or stores your banking login."
+    },
+    {
+      "title": "Encrypted tokens",
+      "body": "Akahu tokens are encrypted before they are stored and are never shown again."
+    },
+    {
+      "title": "You're in control",
+      "body": "Disconnect at any time in Settings. You can also revoke access or regenerate tokens in Akahu."
+    }
+  ],
+  "troubleshooting": [
+    {
+      "question": "Akahu says my tokens are invalid",
+      "answer": "Copy both tokens again from the Developers page in Akahu. Make sure you include the app_token_ and user_token_ prefixes and no spaces. If you regenerated your tokens, the old ones stop working."
+    },
+    {
+      "question": "An account is missing",
+      "answer": "Accounts appear once they are connected in Akahu. Connect the bank in Akahu, then press Sync now and the account will show up to choose."
+    },
+    {
+      "question": "Today's transactions aren't showing",
+      "answer": "Banks share settled transactions, which can take a day or two to appear. Personal apps refresh from your bank about once a day."
+    },
+    {
+      "question": "I want to stop sharing my data",
+      "answer": "Disconnect Akahu in Settings. To withdraw access completely, also revoke Kiwi Finance or regenerate your tokens in Akahu."
+    }
+  ],
+  "supportedBanks": ["ANZ", "ASB", "BNZ", "Kiwibank", "Westpac"],
+  "supportedBanksNote": "Akahu connects to most New Zealand banks and many KiwiSaver and investment providers."
+}
