@@ -1,0 +1,5961 @@
+{
+  "components" : {
+    "schemas" : {
+      "Account" : {
+        "properties" : {
+          "archived" : {
+            "type" : "boolean"
+          },
+          "balance" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "includeInEmergencyFund" : {
+            "type" : "boolean"
+          },
+          "institution" : {
+            "type" : [ "string", "null" ]
+          },
+          "liquid" : {
+            "type" : "boolean"
+          },
+          "managedBy" : {
+            "enum" : [ "USER", "BANK_FEED" ],
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "EVERYDAY", "SAVINGS", "CREDIT_CARD", "LOAN", "KIWISAVER", "INVESTMENT", "CASH", "OTHER" ],
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          }
+        },
+        "required" : [ "archived", "balance", "createdAt", "id", "includeInEmergencyFund", "institution", "liquid", "managedBy", "name", "type", "updatedAt" ],
+        "type" : "object"
+      },
+      "Achievement" : {
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "icon" : {
+            "type" : "string"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "progress" : {
+            "type" : "number"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "unlocked" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "description", "icon", "key", "progress", "title", "unlocked" ],
+        "type" : "object"
+      },
+      "Affordability" : {
+        "properties" : {
+          "availableNow" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "desiredDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "headline" : {
+            "type" : "string"
+          },
+          "levers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/AffordabilityLever"
+            },
+            "type" : "array"
+          },
+          "loan" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/LoanQuote"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "monthlySavingCapacity" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsNeeded" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "payPeriod" : {
+            "type" : "string"
+          },
+          "price" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "realisticDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "requiredMonthlySaving" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "requiredPerPayPeriod" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "shortfall" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "verdict" : {
+            "enum" : [ "AFFORDABLE_NOW", "ON_TRACK", "NEEDS_CHANGES", "SAVE_UP", "OUT_OF_REACH" ],
+            "type" : "string"
+          },
+          "warnings" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "availableNow", "desiredDate", "explanation", "headline", "levers", "loan", "monthlySavingCapacity", "monthsNeeded", "payPeriod", "price", "realisticDate", "requiredMonthlySaving", "requiredPerPayPeriod", "shortfall", "target", "verdict", "warnings" ],
+        "type" : "object"
+      },
+      "AffordabilityLever" : {
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "kind" : {
+            "enum" : [ "SAVE_MORE", "REDUCE_SPENDING", "PAUSE_GOALS", "USE_KIWISAVER", "MOVE_DATE" ],
+            "type" : "string"
+          },
+          "monthlyAmount" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "monthsSooner" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "perPayPeriod" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "resultingDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "title" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "description", "kind", "monthlyAmount", "monthsSooner", "perPayPeriod", "resultingDate", "title" ],
+        "type" : "object"
+      },
+      "AkahuOAuthCallbackRequest" : {
+        "properties" : {
+          "code" : {
+            "maxLength" : 2000,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "state" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "code", "state" ],
+        "type" : "object"
+      },
+      "AkahuOAuthStart" : {
+        "properties" : {
+          "authorisationUrl" : {
+            "type" : "string"
+          },
+          "expiresAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          }
+        },
+        "required" : [ "authorisationUrl", "expiresAt" ],
+        "type" : "object"
+      },
+      "AkahuPersonalTokensRequest" : {
+        "properties" : {
+          "appToken" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "^app_token_[A-Za-z0-9_-]+$",
+            "type" : "string"
+          },
+          "userToken" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "^user_token_[A-Za-z0-9_-]+$",
+            "type" : "string"
+          }
+        },
+        "required" : [ "appToken", "userToken" ],
+        "type" : "object"
+      },
+      "AkahuSetupGuide" : {
+        "properties" : {
+          "connection" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/SetupGuideConnection"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "headline" : {
+            "type" : "string"
+          },
+          "methods" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupGuideMethod"
+            },
+            "type" : "array"
+          },
+          "recommendedMethod" : {
+            "enum" : [ "PERSONAL_APP", "OAUTH" ],
+            "type" : "string"
+          },
+          "security" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupGuideNote"
+            },
+            "type" : "array"
+          },
+          "state" : {
+            "enum" : [ "NOT_CONNECTED", "CHOOSE_ACCOUNTS", "SYNCING", "CONNECTED", "NEEDS_ATTENTION" ],
+            "type" : "string"
+          },
+          "supportedBanks" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "supportedBanksNote" : {
+            "type" : "string"
+          },
+          "troubleshooting" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupGuideFaq"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "connection", "headline", "methods", "recommendedMethod", "security", "state", "supportedBanks", "supportedBanksNote", "troubleshooting" ],
+        "type" : "object"
+      },
+      "Assumption" : {
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "source" : {
+            "type" : [ "string", "null" ]
+          },
+          "value" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "key", "label", "source", "value" ],
+        "type" : "object"
+      },
+      "AuthTokens" : {
+        "properties" : {
+          "accessToken" : {
+            "type" : "string"
+          },
+          "accessTokenExpiresAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "expiresIn" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "refreshToken" : {
+            "type" : "string"
+          },
+          "refreshTokenExpiresAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "tokenType" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "accessToken", "accessTokenExpiresAt", "expiresIn", "refreshToken", "refreshTokenExpiresAt", "tokenType" ],
+        "type" : "object"
+      },
+      "AuthenticatedUser" : {
+        "properties" : {
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "required" : [ "createdAt", "displayName", "email", "id" ],
+        "type" : "object"
+      },
+      "BankConnection" : {
+        "properties" : {
+          "accounts" : {
+            "items" : {
+              "$ref" : "#/components/schemas/BankFeedAccount"
+            },
+            "type" : "array"
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "lastSyncedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "latestSync" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/BankSyncRun"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "method" : {
+            "enum" : [ "PERSONAL_APP", "OAUTH" ],
+            "type" : "string"
+          },
+          "provider" : {
+            "enum" : [ "AKAHU" ],
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "ACTIVE", "REAUTH_REQUIRED", "DISCONNECTED" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "accounts", "createdAt", "id", "lastSyncedAt", "latestSync", "method", "provider", "status" ],
+        "type" : "object"
+      },
+      "BankFeedAccount" : {
+        "properties" : {
+          "active" : {
+            "type" : "boolean"
+          },
+          "balance" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "balanceUpdatedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "institution" : {
+            "type" : [ "string", "null" ]
+          },
+          "linkedAccountId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "maskedNumber" : {
+            "type" : [ "string", "null" ]
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "supportsTransactions" : {
+            "type" : "boolean"
+          },
+          "syncEnabled" : {
+            "type" : "boolean"
+          },
+          "transactionsSyncedThrough" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "enum" : [ "EVERYDAY", "SAVINGS", "CREDIT_CARD", "LOAN", "KIWISAVER", "INVESTMENT", "CASH", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "active", "balance", "balanceUpdatedAt", "id", "institution", "linkedAccountId", "maskedNumber", "name", "supportsTransactions", "syncEnabled", "transactionsSyncedThrough", "type" ],
+        "type" : "object"
+      },
+      "BankSyncRun" : {
+        "properties" : {
+          "accountsSynced" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "connectionId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : [ "string", "null" ]
+          },
+          "errorMessage" : {
+            "type" : [ "string", "null" ]
+          },
+          "finishedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "startedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "RUNNING", "SUCCEEDED", "FAILED" ],
+            "type" : "string"
+          },
+          "transactionsCreated" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "transactionsUpdated" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "trigger" : {
+            "enum" : [ "INITIAL", "MANUAL", "SCHEDULED" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "accountsSynced", "connectionId", "errorCode", "errorMessage", "finishedAt", "id", "startedAt", "status", "transactionsCreated", "transactionsUpdated", "trigger" ],
+        "type" : "object"
+      },
+      "Budget" : {
+        "properties" : {
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "progress" : {
+            "$ref" : "#/components/schemas/BudgetProgress"
+          },
+          "totalLimit" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "id", "name", "progress", "totalLimit" ],
+        "type" : "object"
+      },
+      "BudgetLine" : {
+        "properties" : {
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "limit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "rationale" : {
+            "type" : [ "string", "null" ]
+          },
+          "remaining" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "spent" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "status" : {
+            "enum" : [ "ON_TRACK", "AT_RISK", "OVER" ],
+            "type" : "string"
+          },
+          "usedFraction" : {
+            "type" : "number"
+          }
+        },
+        "required" : [ "category", "limit", "rationale", "remaining", "spent", "status", "usedFraction" ],
+        "type" : "object"
+      },
+      "BudgetLineRequest" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "limitCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "rationale" : {
+            "maxLength" : 300,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "limitCents" ],
+        "type" : "object"
+      },
+      "BudgetProgress" : {
+        "properties" : {
+          "dayOfMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "daysInMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "lines" : {
+            "items" : {
+              "$ref" : "#/components/schemas/BudgetLine"
+            },
+            "type" : "array"
+          },
+          "linesAtRisk" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "linesOver" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "month" : {
+            "type" : "string"
+          },
+          "totalLimit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "totalRemaining" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "totalSpent" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "dayOfMonth", "daysInMonth", "lines", "linesAtRisk", "linesOver", "month", "totalLimit", "totalRemaining", "totalSpent" ],
+        "type" : "object"
+      },
+      "BudgetRecommendation" : {
+        "properties" : {
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "lines" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RecommendedBudgetLine"
+            },
+            "type" : "array"
+          },
+          "meetsTarget" : {
+            "type" : "boolean"
+          },
+          "monthlyIncome" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "plannedSavings" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "plannedSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "savingsRate" : {
+            "type" : "number"
+          },
+          "targetSavings" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "explanation", "lines", "meetsTarget", "monthlyIncome", "plannedSavings", "plannedSpending", "savingsRate", "targetSavings" ],
+        "type" : "object"
+      },
+      "BudgetRequest" : {
+        "properties" : {
+          "lines" : {
+            "items" : {
+              "$ref" : "#/components/schemas/BudgetLineRequest"
+            },
+            "maxItems" : 100,
+            "minItems" : 0,
+            "type" : "array"
+          },
+          "name" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "lines" ],
+        "type" : "object"
+      },
+      "CashSpendingLineRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "note" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "categoryId" ],
+        "type" : "object"
+      },
+      "CashSpendingRequest" : {
+        "properties" : {
+          "lines" : {
+            "items" : {
+              "$ref" : "#/components/schemas/CashSpendingLineRequest"
+            },
+            "maxItems" : 20,
+            "minItems" : 0,
+            "type" : "array"
+          }
+        },
+        "required" : [ "lines" ],
+        "type" : "object"
+      },
+      "CashSpendingResult" : {
+        "properties" : {
+          "linesRecorded" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "walletAccountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "walletBalance" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "linesRecorded", "walletAccountId", "walletBalance" ],
+        "type" : "object"
+      },
+      "CashWithdrawal" : {
+        "properties" : {
+          "accountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "accountName" : {
+            "type" : [ "string", "null" ]
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "postedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "transactionId" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "required" : [ "accountId", "accountName", "amount", "description", "postedOn", "transactionId" ],
+        "type" : "object"
+      },
+      "Cashflow" : {
+        "properties" : {
+          "months" : {
+            "items" : {
+              "$ref" : "#/components/schemas/MonthSummary"
+            },
+            "type" : "array"
+          },
+          "typical" : {
+            "$ref" : "#/components/schemas/TypicalMonth"
+          }
+        },
+        "required" : [ "months", "typical" ],
+        "type" : "object"
+      },
+      "CategorisationRule" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "matchType" : {
+            "enum" : [ "CONTAINS", "STARTS_WITH", "EQUALS" ],
+            "type" : "string"
+          },
+          "pattern" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "categoryId", "id", "matchType", "pattern", "priority" ],
+        "type" : "object"
+      },
+      "CategoriseResult" : {
+        "properties" : {
+          "updated" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "updated" ],
+        "type" : "object"
+      },
+      "CategoriseTransactionsRequest" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "transactionIds" : {
+            "items" : {
+              "format" : "uuid",
+              "type" : "string"
+            },
+            "maxItems" : 500,
+            "minItems" : 0,
+            "type" : "array"
+          }
+        },
+        "required" : [ "transactionIds" ],
+        "type" : "object"
+      },
+      "Category" : {
+        "properties" : {
+          "colour" : {
+            "type" : "string"
+          },
+          "custom" : {
+            "type" : "boolean"
+          },
+          "group" : {
+            "enum" : [ "INCOME", "ESSENTIALS", "LIFESTYLE", "SAVINGS", "DEBT", "TRANSFERS" ],
+            "type" : "string"
+          },
+          "icon" : {
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "slug" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "colour", "custom", "group", "icon", "id", "name", "slug" ],
+        "type" : "object"
+      },
+      "CategorySpend" : {
+        "properties" : {
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "change" : {
+            "type" : [ "number", "null" ]
+          },
+          "monthly" : {
+            "items" : {
+              "$ref" : "#/components/schemas/MonthAmount"
+            },
+            "type" : "array"
+          },
+          "monthlyTypical" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "previousTotal" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "share" : {
+            "type" : "number"
+          },
+          "total" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "category", "change", "monthly", "monthlyTypical", "previousTotal", "share", "total" ],
+        "type" : "object"
+      },
+      "ChangePasswordRequest" : {
+        "properties" : {
+          "currentPassword" : {
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "newPassword" : {
+            "maxLength" : 128,
+            "minLength" : 12,
+            "type" : "string"
+          }
+        },
+        "required" : [ "currentPassword", "newPassword" ],
+        "type" : "object"
+      },
+      "CreateAccountRequest" : {
+        "properties" : {
+          "currentBalanceCents" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "institution" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "liquid" : {
+            "type" : "boolean"
+          },
+          "name" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "EVERYDAY", "SAVINGS", "CREDIT_CARD", "LOAN", "KIWISAVER", "INVESTMENT", "CASH", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "type" ],
+        "type" : "object"
+      },
+      "CreateCategoryRequest" : {
+        "properties" : {
+          "colour" : {
+            "minLength" : 1,
+            "pattern" : "^#[0-9A-F]{6}$",
+            "type" : "string"
+          },
+          "group" : {
+            "enum" : [ "INCOME", "ESSENTIALS", "LIFESTYLE", "SAVINGS", "DEBT", "TRANSFERS" ],
+            "type" : "string"
+          },
+          "icon" : {
+            "maxLength" : 40,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "name" : {
+            "maxLength" : 60,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "colour", "group", "icon", "name" ],
+        "type" : "object"
+      },
+      "CreateRuleRequest" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "matchType" : {
+            "enum" : [ "CONTAINS", "STARTS_WITH", "EQUALS" ],
+            "type" : "string"
+          },
+          "pattern" : {
+            "maxLength" : 100,
+            "minLength" : 2,
+            "type" : "string"
+          },
+          "priority" : {
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "categoryId", "matchType", "pattern" ],
+        "type" : "object"
+      },
+      "CreateTransactionRequest" : {
+        "properties" : {
+          "accountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "amountCents" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "description" : {
+            "maxLength" : 500,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "merchant" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "notes" : {
+            "maxLength" : 1000,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "postedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "transfer" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "accountId", "amountCents", "description", "postedOn" ],
+        "type" : "object"
+      },
+      "Dashboard" : {
+        "properties" : {
+          "achievementsTotal" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "achievementsUnlocked" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "availableToSpend" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "budget" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/DashboardBudget"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "emergencyFund" : {
+            "$ref" : "#/components/schemas/DashboardEmergencyFund"
+          },
+          "emergencyFundReminder" : {
+            "type" : "boolean"
+          },
+          "goals" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Goal"
+            },
+            "type" : "array"
+          },
+          "insights" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Insight"
+            },
+            "type" : "array"
+          },
+          "netWorth" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "score" : {
+            "$ref" : "#/components/schemas/DashboardScore"
+          },
+          "setup" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupStep"
+            },
+            "type" : "array"
+          },
+          "streaks" : {
+            "$ref" : "#/components/schemas/Streaks"
+          },
+          "thisMonth" : {
+            "$ref" : "#/components/schemas/MonthSummary"
+          },
+          "thisMonthByCategory" : {
+            "items" : {
+              "$ref" : "#/components/schemas/DashboardCategoryMonth"
+            },
+            "type" : "array"
+          },
+          "today" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "typical" : {
+            "$ref" : "#/components/schemas/TypicalMonth"
+          },
+          "upcomingBills" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RecurringPayment"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "achievementsTotal", "achievementsUnlocked", "availableToSpend", "budget", "displayName", "emergencyFund", "emergencyFundReminder", "goals", "insights", "netWorth", "score", "setup", "streaks", "thisMonth", "thisMonthByCategory", "today", "typical", "upcomingBills" ],
+        "type" : "object"
+      },
+      "DashboardBudget" : {
+        "properties" : {
+          "dayOfMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "daysInMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "linesAtRisk" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "linesOver" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalLimit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "totalRemaining" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "totalSpent" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "dayOfMonth", "daysInMonth", "linesAtRisk", "linesOver", "totalLimit", "totalRemaining", "totalSpent" ],
+        "type" : "object"
+      },
+      "DashboardCategoryMonth" : {
+        "properties" : {
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "limit" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "spent" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "typical" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "category", "limit", "spent", "typical" ],
+        "type" : "object"
+      },
+      "DashboardEmergencyFund" : {
+        "properties" : {
+          "current" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsCovered" : {
+            "type" : "number"
+          },
+          "progress" : {
+            "type" : "number"
+          },
+          "status" : {
+            "enum" : [ "NOT_STARTED", "BUILDING", "FUNDED" ],
+            "type" : "string"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "targetMonths" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "current", "monthsCovered", "progress", "status", "target", "targetMonths" ],
+        "type" : "object"
+      },
+      "DashboardScore" : {
+        "properties" : {
+          "band" : {
+            "enum" : [ "GETTING_STARTED", "BUILDING", "SOLID", "THRIVING" ],
+            "type" : "string"
+          },
+          "bandLabel" : {
+            "type" : "string"
+          },
+          "nextStep" : {
+            "type" : "string"
+          },
+          "score" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "band", "bandLabel", "nextStep", "score" ],
+        "type" : "object"
+      },
+      "DataExport" : {
+        "properties" : {
+          "exportedAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "tables" : {
+            "additionalProperties" : {
+              "items" : {
+                "additionalProperties" : { },
+                "type" : "object"
+              },
+              "type" : "array"
+            },
+            "description" : "Every stored record, by table, with column names as stored",
+            "type" : "object"
+          }
+        },
+        "required" : [ "exportedAt", "tables" ],
+        "type" : "object"
+      },
+      "DeleteAccountRequest" : {
+        "properties" : {
+          "password" : {
+            "minLength" : 1,
+            "type" : "string"
+          }
+        },
+        "required" : [ "password" ],
+        "type" : "object"
+      },
+      "EmergencyFund" : {
+        "properties" : {
+          "account" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/EmergencyFundAccount"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "current" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "milestones" : {
+            "items" : {
+              "$ref" : "#/components/schemas/EmergencyFundMilestone"
+            },
+            "type" : "array"
+          },
+          "monthlyEssentials" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsCovered" : {
+            "type" : "number"
+          },
+          "monthsToTarget" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "payPeriod" : {
+            "type" : "string"
+          },
+          "progress" : {
+            "type" : "number"
+          },
+          "reasons" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "remind" : {
+            "type" : "boolean"
+          },
+          "shortfall" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "status" : {
+            "enum" : [ "NOT_STARTED", "BUILDING", "FUNDED" ],
+            "type" : "string"
+          },
+          "suggestedAccount" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/EmergencyFundAccount"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "suggestedMonthlyContribution" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "suggestedPerPayPeriod" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "targetMonths" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "account", "current", "explanation", "milestones", "monthlyEssentials", "monthsCovered", "monthsToTarget", "payPeriod", "progress", "reasons", "remind", "shortfall", "status", "suggestedAccount", "suggestedMonthlyContribution", "suggestedPerPayPeriod", "target", "targetMonths" ],
+        "type" : "object"
+      },
+      "EmergencyFundAccount" : {
+        "properties" : {
+          "balance" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "fromBank" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "institution" : {
+            "type" : [ "string", "null" ]
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "balance", "fromBank", "id", "institution", "name" ],
+        "type" : "object"
+      },
+      "EmergencyFundAccountRequest" : {
+        "properties" : {
+          "accountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "EmergencyFundMilestone" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "reached" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "amount", "label", "reached" ],
+        "type" : "object"
+      },
+      "EmployerKiwiSaver" : {
+        "properties" : {
+          "esct" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "gross" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "net" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "esct", "gross", "net" ],
+        "type" : "object"
+      },
+      "Explanation" : {
+        "properties" : {
+          "assumptions" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Assumption"
+            },
+            "type" : "array"
+          },
+          "steps" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Step"
+            },
+            "type" : "array"
+          },
+          "summary" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "assumptions", "steps", "summary" ],
+        "type" : "object"
+      },
+      "GlossaryEntry" : {
+        "properties" : {
+          "definition" : {
+            "type" : "string"
+          },
+          "term" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "definition", "term" ],
+        "type" : "object"
+      },
+      "Goal" : {
+        "properties" : {
+          "achievedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "daysLeft" : {
+            "format" : "int64",
+            "type" : [ "integer", "null" ]
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "linkedAccountId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "linkedAccountName" : {
+            "type" : [ "string", "null" ]
+          },
+          "monthlyContribution" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "progress" : {
+            "type" : "number"
+          },
+          "projection" : {
+            "$ref" : "#/components/schemas/GoalProjection"
+          },
+          "remaining" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "saved" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "status" : {
+            "enum" : [ "ACTIVE", "PAUSED", "ACHIEVED", "ARCHIVED" ],
+            "type" : "string"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "targetDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "enum" : [ "CAR", "HOUSE_DEPOSIT", "TRAVEL", "EDUCATION", "PURCHASE", "WEDDING", "CUSTOM" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "achievedAt", "createdAt", "daysLeft", "id", "linkedAccountId", "linkedAccountName", "monthlyContribution", "name", "priority", "progress", "projection", "remaining", "saved", "status", "target", "targetDate", "type" ],
+        "type" : "object"
+      },
+      "GoalAdvice" : {
+        "properties" : {
+          "allocated" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "detail" : {
+            "type" : "string"
+          },
+          "goalId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "kind" : {
+            "enum" : [ "ON_TRACK", "SET_CONTRIBUTION", "INCREASE_CONTRIBUTION", "REDUCE_CONTRIBUTION", "EXTEND_DATE", "LOWER_TARGET", "REVIEW_BUDGET" ],
+            "type" : "string"
+          },
+          "suggestedDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "suggestedMonthly" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "suggestedTarget" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "urgency" : {
+            "enum" : [ "URGENT", "SOON", "LATER", "FLEXIBLE" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "allocated", "detail", "goalId", "kind", "suggestedDate", "suggestedMonthly", "suggestedTarget", "title", "urgency" ],
+        "type" : "object"
+      },
+      "GoalContribution" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "contributedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "note" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "amount", "contributedOn", "id", "note" ],
+        "type" : "object"
+      },
+      "GoalContributionRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "contributedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "note" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents" ],
+        "type" : "object"
+      },
+      "GoalMilestone" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "percent" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "reached" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "amount", "percent", "reached" ],
+        "type" : "object"
+      },
+      "GoalPlan" : {
+        "properties" : {
+          "advice" : {
+            "items" : {
+              "$ref" : "#/components/schemas/GoalAdvice"
+            },
+            "type" : "array"
+          },
+          "available" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "emergencyFund" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "forGoals" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "summary" : {
+            "type" : "string"
+          },
+          "unplanned" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "advice", "available", "emergencyFund", "forGoals", "summary", "unplanned" ],
+        "type" : "object"
+      },
+      "GoalProjection" : {
+        "properties" : {
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "milestones" : {
+            "items" : {
+              "$ref" : "#/components/schemas/GoalMilestone"
+            },
+            "type" : "array"
+          },
+          "monthlyContribution" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsToGoal" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "projectedDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "requiredMonthly" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "status" : {
+            "enum" : [ "ACHIEVED", "ON_TRACK", "BEHIND", "NOT_STARTED" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "explanation", "milestones", "monthlyContribution", "monthsToGoal", "projectedDate", "requiredMonthly", "status" ],
+        "type" : "object"
+      },
+      "GoalRequest" : {
+        "properties" : {
+          "linkedAccountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "monthlyContributionCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "name" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "priority" : {
+            "format" : "int32",
+            "maximum" : 3,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "startingAmountCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "targetCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "targetDate" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "CAR", "HOUSE_DEPOSIT", "TRAVEL", "EDUCATION", "PURCHASE", "WEDDING", "CUSTOM" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "targetCents", "type" ],
+        "type" : "object"
+      },
+      "GoalStatusRequest" : {
+        "properties" : {
+          "status" : {
+            "enum" : [ "ACTIVE", "PAUSED", "ACHIEVED", "ARCHIVED" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "status" ],
+        "type" : "object"
+      },
+      "Guide" : {
+        "properties" : {
+          "readingMinutes" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "sections" : {
+            "items" : {
+              "$ref" : "#/components/schemas/GuideSection"
+            },
+            "type" : "array"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "summary" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "topic" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "readingMinutes", "sections", "slug", "summary", "title", "topic" ],
+        "type" : "object"
+      },
+      "GuideSection" : {
+        "properties" : {
+          "body" : {
+            "type" : "string"
+          },
+          "heading" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "body", "heading" ],
+        "type" : "object"
+      },
+      "GuideSummary" : {
+        "properties" : {
+          "readingMinutes" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "slug" : {
+            "type" : "string"
+          },
+          "summary" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "topic" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "readingMinutes", "slug", "summary", "title", "topic" ],
+        "type" : "object"
+      },
+      "HomeLayoutRequest" : {
+        "properties" : {
+          "widgets" : {
+            "items" : {
+              "$ref" : "#/components/schemas/HomeWidget"
+            },
+            "maxItems" : 30,
+            "minItems" : 0,
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "HomeWidget" : {
+        "properties" : {
+          "id" : {
+            "pattern" : "[a-zA-Z]{1,40}",
+            "type" : "string"
+          },
+          "size" : {
+            "enum" : [ "SMALL", "MEDIUM", "LARGE", "FULL" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "id", "size" ],
+        "type" : "object"
+      },
+      "ImportBatch" : {
+        "properties" : {
+          "accountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "duplicateCount" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "fileName" : {
+            "type" : "string"
+          },
+          "format" : {
+            "enum" : [ "ANZ", "ASB", "BNZ", "KIWIBANK", "WESTPAC", "GENERIC" ],
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "importedCount" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "rowCount" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "skippedRows" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ImportSkippedRow"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "accountId", "createdAt", "duplicateCount", "fileName", "format", "id", "importedCount", "rowCount", "skippedRows" ],
+        "type" : "object"
+      },
+      "ImportSkippedRow" : {
+        "properties" : {
+          "lineNumber" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "reason" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "lineNumber", "reason" ],
+        "type" : "object"
+      },
+      "IncomeSource" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "basis" : {
+            "enum" : [ "GROSS", "NET" ],
+            "type" : "string"
+          },
+          "current" : {
+            "type" : "boolean"
+          },
+          "endsOn" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "frequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "grossAnnual" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "startsOn" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "takeHomeMonthly" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "takeHomePerPeriod" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "taxCode" : {
+            "enum" : [ "M", "ME", "SB", "S", "SH", "ST", "SA" ],
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "enum" : [ "SALARY", "WAGES", "BENEFIT", "SELF_EMPLOYED", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount", "basis", "current", "endsOn", "frequency", "grossAnnual", "id", "name", "startsOn", "takeHomeMonthly", "takeHomePerPeriod", "taxCode", "type" ],
+        "type" : "object"
+      },
+      "IncomeSourceRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "basis" : {
+            "enum" : [ "GROSS", "NET" ],
+            "type" : "string"
+          },
+          "endsOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "frequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "name" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "startsOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "taxCode" : {
+            "enum" : [ "M", "ME", "SB", "S", "SH", "ST", "SA" ],
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "SALARY", "WAGES", "BENEFIT", "SELF_EMPLOYED", "OTHER" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "basis", "frequency", "name", "type" ],
+        "type" : "object"
+      },
+      "IncomeSummary" : {
+        "properties" : {
+          "expectedAnnualGross" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "expectedMonthlyTakeHome" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "sources" : {
+            "items" : {
+              "$ref" : "#/components/schemas/IncomeSource"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "expectedAnnualGross", "expectedMonthlyTakeHome", "sources" ],
+        "type" : "object"
+      },
+      "Insight" : {
+        "properties" : {
+          "action" : {
+            "enum" : [ "OPEN_BUDGET", "OPEN_GOALS", "MOVE_MONEY", "REVIEW_SPENDING", "OPEN_EMERGENCY_FUND" ],
+            "type" : [ "string", "null" ]
+          },
+          "amount" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "tone" : {
+            "enum" : [ "POSITIVE", "NEUTRAL", "WARNING" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "action", "amount", "category", "key", "message", "title", "tone" ],
+        "type" : "object"
+      },
+      "KiwiScore" : {
+        "properties" : {
+          "band" : {
+            "enum" : [ "GETTING_STARTED", "BUILDING", "SOLID", "THRIVING" ],
+            "type" : "string"
+          },
+          "bandLabel" : {
+            "type" : "string"
+          },
+          "components" : {
+            "items" : {
+              "$ref" : "#/components/schemas/KiwiScoreComponent"
+            },
+            "type" : "array"
+          },
+          "nextStep" : {
+            "type" : "string"
+          },
+          "score" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "summary" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "band", "bandLabel", "components", "nextStep", "score", "summary" ],
+        "type" : "object"
+      },
+      "KiwiScoreComponent" : {
+        "properties" : {
+          "detail" : {
+            "type" : "string"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "score" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "tip" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "weight" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "detail", "key", "score", "tip", "title", "weight" ],
+        "type" : "object"
+      },
+      "LoanQuote" : {
+        "properties" : {
+          "annualRate" : {
+            "type" : "number"
+          },
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "fees" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "fortnightlyRepayment" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthlyRepayment" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "principal" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "termMonths" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalInterest" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "totalRepaid" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "weeklyRepayment" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "annualRate", "explanation", "fees", "fortnightlyRepayment", "monthlyRepayment", "principal", "termMonths", "totalInterest", "totalRepaid", "weeklyRepayment" ],
+        "type" : "object"
+      },
+      "LoanRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "annualRate" : {
+            "maximum" : 0.5,
+            "minimum" : 0,
+            "type" : "number"
+          },
+          "feesCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "termMonths" : {
+            "format" : "int32",
+            "maximum" : 360,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "amountCents", "annualRate", "termMonths" ],
+        "type" : "object"
+      },
+      "LoginRequest" : {
+        "properties" : {
+          "email" : {
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "password" : {
+            "minLength" : 1,
+            "type" : "string"
+          }
+        },
+        "required" : [ "email", "password" ],
+        "type" : "object"
+      },
+      "LogoutRequest" : {
+        "properties" : {
+          "refreshToken" : {
+            "minLength" : 1,
+            "type" : "string"
+          }
+        },
+        "required" : [ "refreshToken" ],
+        "type" : "object"
+      },
+      "Money" : {
+        "properties" : {
+          "cents" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "currency" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "cents", "currency" ],
+        "type" : "object"
+      },
+      "MoneyMovement" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "fromAccountId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "fromAccountName" : {
+            "type" : [ "string", "null" ]
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "movedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "note" : {
+            "type" : [ "string", "null" ]
+          },
+          "toAccountId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "toAccountName" : {
+            "type" : [ "string", "null" ]
+          },
+          "type" : {
+            "enum" : [ "TRANSFER", "WITHDRAWAL", "DEPOSIT" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount", "fromAccountId", "fromAccountName", "id", "movedOn", "note", "toAccountId", "toAccountName", "type" ],
+        "type" : "object"
+      },
+      "MoneyMovementRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "fromAccountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "movedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "note" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "toAccountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "TRANSFER", "WITHDRAWAL", "DEPOSIT" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "type" ],
+        "type" : "object"
+      },
+      "MonthAmount" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "month" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount", "month" ],
+        "type" : "object"
+      },
+      "MonthSummary" : {
+        "properties" : {
+          "complete" : {
+            "type" : "boolean"
+          },
+          "essentialSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "income" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "lifestyleSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "month" : {
+            "type" : "string"
+          },
+          "net" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "saved" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "savingsRate" : {
+            "type" : "number"
+          },
+          "spending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "uncategorisedSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "complete", "essentialSpending", "income", "lifestyleSpending", "month", "net", "saved", "savingsRate", "spending", "uncategorisedSpending" ],
+        "type" : "object"
+      },
+      "PageResponseTransaction" : {
+        "properties" : {
+          "items" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Transaction"
+            },
+            "type" : "array"
+          },
+          "nextCursor" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "items", "nextCursor" ],
+        "type" : "object"
+      },
+      "PayAmounts" : {
+        "properties" : {
+          "accLevy" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "gross" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "incomeTax" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "independentEarnerTaxCredit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "kiwiSaver" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "studentLoan" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "takeHome" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "accLevy", "gross", "incomeTax", "independentEarnerTaxCredit", "kiwiSaver", "studentLoan", "takeHome" ],
+        "type" : "object"
+      },
+      "PayBreakdown" : {
+        "properties" : {
+          "annual" : {
+            "$ref" : "#/components/schemas/PayAmounts"
+          },
+          "employerKiwiSaver" : {
+            "$ref" : "#/components/schemas/EmployerKiwiSaver"
+          },
+          "explanation" : {
+            "$ref" : "#/components/schemas/Explanation"
+          },
+          "frequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "perPeriod" : {
+            "$ref" : "#/components/schemas/PayAmounts"
+          },
+          "taxYear" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "annual", "employerKiwiSaver", "explanation", "frequency", "perPeriod", "taxYear" ],
+        "type" : "object"
+      },
+      "PayCalculationRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "basis" : {
+            "enum" : [ "GROSS", "NET" ],
+            "type" : "string"
+          },
+          "frequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "kiwiSaverRate" : {
+            "maximum" : 0.1,
+            "minimum" : 0.03,
+            "type" : "number"
+          },
+          "payDate" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "studentLoan" : {
+            "type" : "boolean"
+          },
+          "taxCode" : {
+            "enum" : [ "M", "ME", "SB", "S", "SH", "ST", "SA" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "amountCents", "basis", "frequency", "taxCode" ],
+        "type" : "object"
+      },
+      "Preferences" : {
+        "properties" : {
+          "emergencyFundReminderSnoozedUntil" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "emergencyFundReminders" : {
+            "type" : "boolean"
+          },
+          "homeLayout" : {
+            "items" : {
+              "$ref" : "#/components/schemas/HomeWidget"
+            },
+            "type" : [ "array", "null" ]
+          }
+        },
+        "required" : [ "emergencyFundReminderSnoozedUntil", "emergencyFundReminders", "homeLayout" ],
+        "type" : "object"
+      },
+      "PreferencesRequest" : {
+        "properties" : {
+          "emergencyFundReminders" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      },
+      "Profile" : {
+        "properties" : {
+          "dateOfBirth" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "dependants" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "employmentType" : {
+            "enum" : [ "EMPLOYEE", "SELF_EMPLOYED", "CONTRACTOR", "STUDENT", "NOT_WORKING", "RETIRED" ],
+            "type" : "string"
+          },
+          "firstHomeBuyer" : {
+            "type" : "boolean"
+          },
+          "hasStudentLoan" : {
+            "type" : "boolean"
+          },
+          "householdSize" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "housingType" : {
+            "enum" : [ "RENTING", "MORTGAGE", "OWN_OUTRIGHT", "BOARDING", "WITH_FAMILY" ],
+            "type" : [ "string", "null" ]
+          },
+          "kiwiSaverBalance" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "kiwiSaverJoinedOn" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "kiwiSaverMember" : {
+            "type" : "boolean"
+          },
+          "kiwiSaverRate" : {
+            "type" : [ "number", "null" ]
+          },
+          "onboarded" : {
+            "type" : "boolean"
+          },
+          "onboardedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "payFrequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "region" : {
+            "enum" : [ "NORTHLAND", "AUCKLAND", "WAIKATO", "BAY_OF_PLENTY", "GISBORNE", "HAWKES_BAY", "TARANAKI", "MANAWATU_WHANGANUI", "WELLINGTON", "TASMAN", "NELSON", "MARLBOROUGH", "WEST_COAST", "CANTERBURY", "OTAGO", "SOUTHLAND" ],
+            "type" : [ "string", "null" ]
+          },
+          "savingsInterestRate" : {
+            "type" : "number"
+          },
+          "singleIncomeHousehold" : {
+            "type" : "boolean"
+          },
+          "targetSavingsRate" : {
+            "type" : "number"
+          },
+          "taxCode" : {
+            "enum" : [ "M", "ME", "SB", "S", "SH", "ST", "SA" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "dateOfBirth", "dependants", "employmentType", "firstHomeBuyer", "hasStudentLoan", "householdSize", "housingType", "kiwiSaverBalance", "kiwiSaverJoinedOn", "kiwiSaverMember", "kiwiSaverRate", "onboarded", "onboardedAt", "payFrequency", "region", "savingsInterestRate", "singleIncomeHousehold", "targetSavingsRate", "taxCode" ],
+        "type" : "object"
+      },
+      "ProfileRequest" : {
+        "properties" : {
+          "dateOfBirth" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "dependants" : {
+            "format" : "int32",
+            "maximum" : 20,
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "employmentType" : {
+            "enum" : [ "EMPLOYEE", "SELF_EMPLOYED", "CONTRACTOR", "STUDENT", "NOT_WORKING", "RETIRED" ],
+            "type" : "string"
+          },
+          "firstHomeBuyer" : {
+            "type" : "boolean"
+          },
+          "hasStudentLoan" : {
+            "type" : "boolean"
+          },
+          "householdSize" : {
+            "format" : "int32",
+            "maximum" : 20,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "housingType" : {
+            "enum" : [ "RENTING", "MORTGAGE", "OWN_OUTRIGHT", "BOARDING", "WITH_FAMILY" ],
+            "type" : "string"
+          },
+          "kiwiSaverBalanceCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "kiwiSaverJoinedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "kiwiSaverMember" : {
+            "type" : "boolean"
+          },
+          "kiwiSaverRate" : {
+            "maximum" : 0.1,
+            "minimum" : 0.03,
+            "type" : "number"
+          },
+          "payFrequency" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "FOUR_WEEKLY", "MONTHLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "region" : {
+            "enum" : [ "NORTHLAND", "AUCKLAND", "WAIKATO", "BAY_OF_PLENTY", "GISBORNE", "HAWKES_BAY", "TARANAKI", "MANAWATU_WHANGANUI", "WELLINGTON", "TASMAN", "NELSON", "MARLBOROUGH", "WEST_COAST", "CANTERBURY", "OTAGO", "SOUTHLAND" ],
+            "type" : "string"
+          },
+          "savingsInterestRate" : {
+            "maximum" : 0.2,
+            "minimum" : 0,
+            "type" : "number"
+          },
+          "singleIncomeHousehold" : {
+            "type" : "boolean"
+          },
+          "targetSavingsRate" : {
+            "maximum" : 0.8,
+            "minimum" : 0,
+            "type" : "number"
+          },
+          "taxCode" : {
+            "enum" : [ "M", "ME", "SB", "S", "SH", "ST", "SA" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "employmentType", "payFrequency", "savingsInterestRate", "targetSavingsRate", "taxCode" ],
+        "type" : "object"
+      },
+      "Progress" : {
+        "properties" : {
+          "achievements" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Achievement"
+            },
+            "type" : "array"
+          },
+          "score" : {
+            "$ref" : "#/components/schemas/KiwiScore"
+          },
+          "streaks" : {
+            "$ref" : "#/components/schemas/Streaks"
+          },
+          "total" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "unlocked" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "achievements", "score", "streaks", "total", "unlocked" ],
+        "type" : "object"
+      },
+      "PurchaseAffectedGoal" : {
+        "properties" : {
+          "change" : {
+            "type" : "string"
+          },
+          "goalId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "change", "goalId", "name" ],
+        "type" : "object"
+      },
+      "PurchaseCost" : {
+        "properties" : {
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "label" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "amount", "category", "label" ],
+        "type" : "object"
+      },
+      "PurchaseImpact" : {
+        "properties" : {
+          "cashAvailable" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "cashNeeded" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "cashShortfall" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "costToIncome" : {
+            "type" : "number"
+          },
+          "deposit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "depositGuidance" : {
+            "type" : "string"
+          },
+          "goalsAffected" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PurchaseAffectedGoal"
+            },
+            "type" : "array"
+          },
+          "headline" : {
+            "type" : "string"
+          },
+          "income" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "kind" : {
+            "enum" : [ "CAR", "HOUSE", "OTHER" ],
+            "type" : "string"
+          },
+          "kiwiSaverAvailable" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "loan" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/LoanQuote"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "monthlyCosts" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PurchaseCost"
+            },
+            "type" : "array"
+          },
+          "monthlyTotal" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsToSave" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "notes" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "options" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PurchaseLoanOption"
+            },
+            "type" : "array"
+          },
+          "price" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "readyBy" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "recommendedDeposit" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "savingsRateAfter" : {
+            "type" : "number"
+          },
+          "savingsRateBefore" : {
+            "type" : "number"
+          },
+          "surplusAfter" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "surplusBefore" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "upfrontCosts" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PurchaseCost"
+            },
+            "type" : "array"
+          },
+          "upfrontTotal" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "verdict" : {
+            "enum" : [ "COMFORTABLE", "TIGHT", "STRETCH", "NOT_AFFORDABLE" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "cashAvailable", "cashNeeded", "cashShortfall", "costToIncome", "deposit", "depositGuidance", "goalsAffected", "headline", "income", "kind", "kiwiSaverAvailable", "loan", "monthlyCosts", "monthlyTotal", "monthsToSave", "notes", "options", "price", "readyBy", "recommendedDeposit", "savingsRateAfter", "savingsRateBefore", "surplusAfter", "surplusBefore", "upfrontCosts", "upfrontTotal", "verdict" ],
+        "type" : "object"
+      },
+      "PurchaseImpactRequest" : {
+        "properties" : {
+          "annualRate" : {
+            "maximum" : 0.5,
+            "minimum" : 0,
+            "type" : "number"
+          },
+          "depositCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "firstHome" : {
+            "type" : "boolean"
+          },
+          "kind" : {
+            "enum" : [ "CAR", "HOUSE", "OTHER" ],
+            "type" : "string"
+          },
+          "ownershipCostsCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "priceCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "termMonths" : {
+            "format" : "int32",
+            "maximum" : 360,
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "upfrontCostsCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "kind", "priceCents" ],
+        "type" : "object"
+      },
+      "PurchaseLoanOption" : {
+        "properties" : {
+          "monthlyRepayment" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "surplusAfter" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "termMonths" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "totalInterest" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "monthlyRepayment", "surplusAfter", "termMonths", "totalInterest" ],
+        "type" : "object"
+      },
+      "PurchasePlan" : {
+        "properties" : {
+          "assessment" : {
+            "$ref" : "#/components/schemas/Affordability"
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "deposit" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "desiredDate" : {
+            "format" : "date",
+            "type" : [ "string", "null" ]
+          },
+          "firstHome" : {
+            "type" : "boolean"
+          },
+          "funding" : {
+            "enum" : [ "CASH", "FINANCE" ],
+            "type" : "string"
+          },
+          "goalId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "itemName" : {
+            "type" : "string"
+          },
+          "loanFees" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Money"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "loanRate" : {
+            "type" : [ "number", "null" ]
+          },
+          "loanTermMonths" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          },
+          "price" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "assessment", "createdAt", "deposit", "desiredDate", "firstHome", "funding", "goalId", "id", "itemName", "loanFees", "loanRate", "loanTermMonths", "price" ],
+        "type" : "object"
+      },
+      "PurchaseRequest" : {
+        "properties" : {
+          "depositCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "desiredDate" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "firstHome" : {
+            "type" : "boolean"
+          },
+          "funding" : {
+            "enum" : [ "CASH", "FINANCE" ],
+            "type" : "string"
+          },
+          "itemName" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "loanFeesCents" : {
+            "format" : "int64",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "loanRate" : {
+            "maximum" : 0.5,
+            "minimum" : 0,
+            "type" : "number"
+          },
+          "loanTermMonths" : {
+            "format" : "int32",
+            "maximum" : 360,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "priceCents" : {
+            "exclusiveMinimum" : 0,
+            "format" : "int64",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "funding", "itemName", "priceCents" ],
+        "type" : "object"
+      },
+      "RecategoriseResult" : {
+        "properties" : {
+          "updated" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        },
+        "required" : [ "updated" ],
+        "type" : "object"
+      },
+      "RecommendedBudgetLine" : {
+        "properties" : {
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "kind" : {
+            "enum" : [ "ESSENTIAL", "LIFESTYLE", "UNCATEGORISED" ],
+            "type" : "string"
+          },
+          "rationale" : {
+            "type" : "string"
+          },
+          "recommended" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "trimmed" : {
+            "type" : "boolean"
+          },
+          "typical" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "category", "kind", "rationale", "recommended", "trimmed", "typical" ],
+        "type" : "object"
+      },
+      "RecurringPayment" : {
+        "properties" : {
+          "annualAmount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "incoming" : {
+            "type" : "boolean"
+          },
+          "interval" : {
+            "enum" : [ "WEEKLY", "FORTNIGHTLY", "MONTHLY", "QUARTERLY", "ANNUALLY" ],
+            "type" : "string"
+          },
+          "lastDate" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "monthlyAmount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nextExpectedDate" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "occurrences" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "subscription" : {
+            "type" : "boolean"
+          },
+          "typicalAmount" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "annualAmount", "category", "incoming", "interval", "lastDate", "monthlyAmount", "name", "nextExpectedDate", "occurrences", "subscription", "typicalAmount" ],
+        "type" : "object"
+      },
+      "RecurringSummary" : {
+        "properties" : {
+          "monthlyBills" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthlySubscriptions" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "payments" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RecurringPayment"
+            },
+            "type" : "array"
+          },
+          "upcoming" : {
+            "items" : {
+              "$ref" : "#/components/schemas/RecurringPayment"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "monthlyBills", "monthlySubscriptions", "payments", "upcoming" ],
+        "type" : "object"
+      },
+      "RefreshRequest" : {
+        "properties" : {
+          "refreshToken" : {
+            "minLength" : 1,
+            "type" : "string"
+          }
+        },
+        "required" : [ "refreshToken" ],
+        "type" : "object"
+      },
+      "RegisterRequest" : {
+        "properties" : {
+          "displayName" : {
+            "maxLength" : 100,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "email" : {
+            "format" : "email",
+            "maxLength" : 320,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "password" : {
+            "maxLength" : 128,
+            "minLength" : 12,
+            "type" : "string"
+          }
+        },
+        "required" : [ "displayName", "email", "password" ],
+        "type" : "object"
+      },
+      "SetTransactionCategoryRequest" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "SetupGuideAction" : {
+        "properties" : {
+          "connectionId" : {
+            "format" : "uuid",
+            "type" : [ "string", "null" ]
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "OPEN_LINK", "START_OAUTH", "ENTER_TOKENS", "UPDATE_TOKENS", "CHOOSE_ACCOUNTS", "SYNC_NOW" ],
+            "type" : "string"
+          },
+          "url" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "connectionId", "label", "type", "url" ],
+        "type" : "object"
+      },
+      "SetupGuideConnection" : {
+        "properties" : {
+          "accountsAvailable" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "accountsSyncing" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "lastSyncedAt" : {
+            "format" : "date-time",
+            "type" : [ "string", "null" ]
+          },
+          "latestSyncError" : {
+            "type" : [ "string", "null" ]
+          },
+          "latestSyncStatus" : {
+            "enum" : [ "RUNNING", "SUCCEEDED", "FAILED" ],
+            "type" : [ "string", "null" ]
+          },
+          "method" : {
+            "enum" : [ "PERSONAL_APP", "OAUTH" ],
+            "type" : "string"
+          },
+          "status" : {
+            "enum" : [ "ACTIVE", "REAUTH_REQUIRED", "DISCONNECTED" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "accountsAvailable", "accountsSyncing", "id", "lastSyncedAt", "latestSyncError", "latestSyncStatus", "method", "status" ],
+        "type" : "object"
+      },
+      "SetupGuideFaq" : {
+        "properties" : {
+          "answer" : {
+            "type" : "string"
+          },
+          "question" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "answer", "question" ],
+        "type" : "object"
+      },
+      "SetupGuideLink" : {
+        "properties" : {
+          "label" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "label", "url" ],
+        "type" : "object"
+      },
+      "SetupGuideMethod" : {
+        "properties" : {
+          "available" : {
+            "type" : "boolean"
+          },
+          "estimatedMinutes" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "method" : {
+            "enum" : [ "PERSONAL_APP", "OAUTH" ],
+            "type" : "string"
+          },
+          "requirements" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "steps" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupGuideStep"
+            },
+            "type" : "array"
+          },
+          "summary" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "unavailableReason" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "available", "estimatedMinutes", "method", "requirements", "steps", "summary", "title", "unavailableReason" ],
+        "type" : "object"
+      },
+      "SetupGuideNote" : {
+        "properties" : {
+          "body" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "body", "title" ],
+        "type" : "object"
+      },
+      "SetupGuideStep" : {
+        "properties" : {
+          "action" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/SetupGuideAction"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "body" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "links" : {
+            "items" : {
+              "$ref" : "#/components/schemas/SetupGuideLink"
+            },
+            "type" : "array"
+          },
+          "status" : {
+            "enum" : [ "DONE", "CURRENT", "TODO", "ATTENTION" ],
+            "type" : "string"
+          },
+          "tip" : {
+            "type" : [ "string", "null" ]
+          },
+          "title" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "action", "body", "id", "links", "status", "tip", "title" ],
+        "type" : "object"
+      },
+      "SetupStep" : {
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "done" : {
+            "type" : "boolean"
+          },
+          "href" : {
+            "type" : "string"
+          },
+          "key" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "description", "done", "href", "key", "title" ],
+        "type" : "object"
+      },
+      "SpendingBreakdown" : {
+        "properties" : {
+          "categories" : {
+            "items" : {
+              "$ref" : "#/components/schemas/CategorySpend"
+            },
+            "type" : "array"
+          },
+          "from" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "previousTotal" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "to" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "total" : {
+            "$ref" : "#/components/schemas/Money"
+          }
+        },
+        "required" : [ "categories", "from", "previousTotal", "to", "total" ],
+        "type" : "object"
+      },
+      "Step" : {
+        "properties" : {
+          "detail" : {
+            "type" : [ "string", "null" ]
+          },
+          "label" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "detail", "label", "value" ],
+        "type" : "object"
+      },
+      "Streaks" : {
+        "properties" : {
+          "noSpendDays" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "noSpendDaysThisMonth" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "surplusMonths" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "underBudgetWeeks" : {
+            "format" : "int32",
+            "type" : [ "integer", "null" ]
+          }
+        },
+        "required" : [ "noSpendDays", "noSpendDaysThisMonth", "surplusMonths", "underBudgetWeeks" ],
+        "type" : "object"
+      },
+      "Transaction" : {
+        "properties" : {
+          "accountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "accountName" : {
+            "type" : [ "string", "null" ]
+          },
+          "amount" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Category"
+            }, {
+              "type" : "null"
+            } ]
+          },
+          "categorySource" : {
+            "enum" : [ "USER", "RULE", "PROVIDER" ],
+            "type" : [ "string", "null" ]
+          },
+          "createdAt" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "merchant" : {
+            "type" : [ "string", "null" ]
+          },
+          "notes" : {
+            "type" : [ "string", "null" ]
+          },
+          "postedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "source" : {
+            "enum" : [ "MANUAL", "CSV_IMPORT", "BANK_FEED" ],
+            "type" : "string"
+          },
+          "transfer" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "accountId", "accountName", "amount", "category", "categorySource", "createdAt", "description", "id", "merchant", "notes", "postedOn", "source", "transfer" ],
+        "type" : "object"
+      },
+      "TypicalMonth" : {
+        "properties" : {
+          "essentialSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "income" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "incomeBasis" : {
+            "enum" : [ "TRANSACTIONS", "INCOME_SOURCES", "NONE" ],
+            "type" : "string"
+          },
+          "lifestyleSpending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "monthsOfData" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "savingsRate" : {
+            "type" : "number"
+          },
+          "spending" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "surplus" : {
+            "$ref" : "#/components/schemas/Money"
+          },
+          "variableIncome" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "essentialSpending", "income", "incomeBasis", "lifestyleSpending", "monthsOfData", "savingsRate", "spending", "surplus", "variableIncome" ],
+        "type" : "object"
+      },
+      "UpdateAccountRequest" : {
+        "properties" : {
+          "currentPassword" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "maxLength" : 100,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "email" : {
+            "format" : "email",
+            "maxLength" : 320,
+            "minLength" : 0,
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "UpdateCategoryRequest" : {
+        "properties" : {
+          "colour" : {
+            "pattern" : "^#[0-9A-F]{6}$",
+            "type" : "string"
+          },
+          "group" : {
+            "enum" : [ "INCOME", "ESSENTIALS", "LIFESTYLE", "SAVINGS", "DEBT", "TRANSFERS" ],
+            "type" : "string"
+          },
+          "icon" : {
+            "maxLength" : 40,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "name" : {
+            "maxLength" : 60,
+            "minLength" : 1,
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "UpdateFeedAccountRequest" : {
+        "properties" : {
+          "linkAccountId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "syncEnabled" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "syncEnabled" ],
+        "type" : "object"
+      },
+      "UpdateRuleRequest" : {
+        "properties" : {
+          "categoryId" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "matchType" : {
+            "enum" : [ "CONTAINS", "STARTS_WITH", "EQUALS" ],
+            "type" : "string"
+          },
+          "pattern" : {
+            "maxLength" : 100,
+            "minLength" : 2,
+            "type" : "string"
+          },
+          "priority" : {
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "UpdateTransactionRequest" : {
+        "properties" : {
+          "amountCents" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "description" : {
+            "maxLength" : 500,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "merchant" : {
+            "maxLength" : 200,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "notes" : {
+            "maxLength" : 1000,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "postedOn" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "transfer" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "bearerFormat" : "JWT",
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  },
+  "info" : {
+    "description" : "Personal finance for New Zealand. All amounts are integer cents in NZD.",
+    "title" : "Kiwi Finance API",
+    "version" : "v1"
+  },
+  "openapi" : "3.1.0",
+  "paths" : {
+    "/api/v1/accounts" : {
+      "get" : {
+        "operationId" : "list_5",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "includeArchived",
+          "required" : false,
+          "schema" : {
+            "default" : false,
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Account"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "account-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_7",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "account-controller" ]
+      }
+    },
+    "/api/v1/accounts/{id}" : {
+      "delete" : {
+        "operationId" : "archive",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "account-controller" ]
+      },
+      "get" : {
+        "operationId" : "get_5",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "account-controller" ]
+      },
+      "patch" : {
+        "operationId" : "update_9",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "account-controller" ]
+      }
+    },
+    "/api/v1/analysis/cashflow" : {
+      "get" : {
+        "operationId" : "cashflow",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "months",
+          "required" : false,
+          "schema" : {
+            "default" : 12,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Cashflow"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "analysis-controller" ]
+      }
+    },
+    "/api/v1/analysis/recurring" : {
+      "get" : {
+        "operationId" : "recurring",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RecurringSummary"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "analysis-controller" ]
+      }
+    },
+    "/api/v1/analysis/spending" : {
+      "get" : {
+        "operationId" : "spending",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "months",
+          "required" : false,
+          "schema" : {
+            "default" : 3,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SpendingBreakdown"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "analysis-controller" ]
+      }
+    },
+    "/api/v1/auth/login" : {
+      "post" : {
+        "operationId" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthTokens"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/logout" : {
+      "post" : {
+        "operationId" : "logout",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/me" : {
+      "delete" : {
+        "operationId" : "deleteAccount",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeleteAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      },
+      "get" : {
+        "operationId" : "me",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthenticatedUser"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      },
+      "patch" : {
+        "operationId" : "updateAccount_1",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthenticatedUser"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/me/export" : {
+      "get" : {
+        "operationId" : "export",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DataExport"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "privacy-controller" ]
+      }
+    },
+    "/api/v1/auth/me/password" : {
+      "post" : {
+        "operationId" : "changePassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthTokens"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/refresh" : {
+      "post" : {
+        "operationId" : "refresh",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthTokens"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/auth/register" : {
+      "post" : {
+        "operationId" : "register",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthTokens"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "auth-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/akahu/connections/{id}/credentials" : {
+      "put" : {
+        "operationId" : "updateTokens",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AkahuPersonalTokensRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankConnection"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "akahu-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/akahu/oauth/authorisations" : {
+      "post" : {
+        "operationId" : "startOAuth",
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AkahuOAuthStart"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "akahu-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/akahu/oauth/callback" : {
+      "post" : {
+        "operationId" : "completeOAuth",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AkahuOAuthCallbackRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankConnection"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "akahu-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/akahu/personal-connections" : {
+      "post" : {
+        "operationId" : "connectPersonalApp",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AkahuPersonalTokensRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankConnection"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "akahu-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/akahu/setup-guide" : {
+      "get" : {
+        "operationId" : "setupGuide",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AkahuSetupGuide"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "akahu-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/connections" : {
+      "get" : {
+        "operationId" : "list_6",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/BankConnection"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/connections/{id}" : {
+      "delete" : {
+        "operationId" : "disconnect",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      },
+      "get" : {
+        "operationId" : "get_7",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankConnection"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/connections/{id}/accounts/{feedAccountId}" : {
+      "patch" : {
+        "operationId" : "updateAccount",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "feedAccountId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateFeedAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankFeedAccount"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/connections/{id}/syncs" : {
+      "get" : {
+        "operationId" : "syncs",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "default" : 10,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/BankSyncRun"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      },
+      "post" : {
+        "operationId" : "sync",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "202" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankSyncRun"
+                }
+              }
+            },
+            "description" : "Accepted"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      }
+    },
+    "/api/v1/bank-feeds/connections/{id}/syncs/{runId}" : {
+      "get" : {
+        "operationId" : "syncRun",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "runId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankSyncRun"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "bank-feed-controller" ]
+      }
+    },
+    "/api/v1/budgets" : {
+      "post" : {
+        "operationId" : "create_6",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BudgetRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Budget"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "budget-controller" ]
+      }
+    },
+    "/api/v1/budgets/current" : {
+      "get" : {
+        "operationId" : "current",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "month",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Budget"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "budget-controller" ]
+      }
+    },
+    "/api/v1/budgets/recommendation" : {
+      "get" : {
+        "operationId" : "recommendation",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BudgetRecommendation"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "budget-controller" ]
+      }
+    },
+    "/api/v1/budgets/{id}" : {
+      "delete" : {
+        "operationId" : "delete_3",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "budget-controller" ]
+      },
+      "put" : {
+        "operationId" : "update_4",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BudgetRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Budget"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "budget-controller" ]
+      }
+    },
+    "/api/v1/cash-withdrawals" : {
+      "get" : {
+        "operationId" : "unsorted",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/CashWithdrawal"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "cash-withdrawal-controller" ]
+      }
+    },
+    "/api/v1/cash-withdrawals/{transactionId}" : {
+      "post" : {
+        "operationId" : "sort",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "transactionId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CashSpendingRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CashSpendingResult"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "cash-withdrawal-controller" ]
+      }
+    },
+    "/api/v1/categories" : {
+      "get" : {
+        "operationId" : "list_4",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Category"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "category-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_5",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateCategoryRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Category"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "category-controller" ]
+      }
+    },
+    "/api/v1/categories/{id}" : {
+      "delete" : {
+        "operationId" : "delete_6",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "category-controller" ]
+      },
+      "patch" : {
+        "operationId" : "update_8",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateCategoryRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Category"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "category-controller" ]
+      }
+    },
+    "/api/v1/categorisation-rules" : {
+      "get" : {
+        "operationId" : "list_3",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/CategorisationRule"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "categorisation-rule-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_4",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateRuleRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategorisationRule"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "categorisation-rule-controller" ]
+      }
+    },
+    "/api/v1/categorisation-rules/{id}" : {
+      "delete" : {
+        "operationId" : "delete_5",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "categorisation-rule-controller" ]
+      },
+      "patch" : {
+        "operationId" : "update_7",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateRuleRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategorisationRule"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "categorisation-rule-controller" ]
+      }
+    },
+    "/api/v1/dashboard" : {
+      "get" : {
+        "operationId" : "dashboard",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Dashboard"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dashboard-controller" ]
+      }
+    },
+    "/api/v1/education/glossary" : {
+      "get" : {
+        "operationId" : "glossary",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/GlossaryEntry"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "education-controller" ]
+      }
+    },
+    "/api/v1/education/guides" : {
+      "get" : {
+        "operationId" : "guides",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/GuideSummary"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "education-controller" ]
+      }
+    },
+    "/api/v1/education/guides/{slug}" : {
+      "get" : {
+        "operationId" : "guide",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "slug",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Guide"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "education-controller" ]
+      }
+    },
+    "/api/v1/emergency-fund" : {
+      "get" : {
+        "operationId" : "get_6",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EmergencyFund"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "emergency-fund-controller" ]
+      }
+    },
+    "/api/v1/emergency-fund/account" : {
+      "put" : {
+        "operationId" : "chooseAccount",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/EmergencyFundAccountRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EmergencyFund"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "emergency-fund-controller" ]
+      }
+    },
+    "/api/v1/goals" : {
+      "get" : {
+        "operationId" : "list_2",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Goal"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_3",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GoalRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goal"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      }
+    },
+    "/api/v1/goals/plan" : {
+      "get" : {
+        "operationId" : "plan",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GoalPlan"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      }
+    },
+    "/api/v1/goals/{id}" : {
+      "delete" : {
+        "operationId" : "delete_2",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      },
+      "get" : {
+        "operationId" : "get_2",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goal"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      },
+      "put" : {
+        "operationId" : "update_3",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GoalRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goal"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      }
+    },
+    "/api/v1/goals/{id}/contributions" : {
+      "get" : {
+        "operationId" : "contributions",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/GoalContribution"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      },
+      "post" : {
+        "operationId" : "contribute",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GoalContributionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goal"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      }
+    },
+    "/api/v1/goals/{id}/status" : {
+      "put" : {
+        "operationId" : "changeStatus",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GoalStatusRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Goal"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "goal-controller" ]
+      }
+    },
+    "/api/v1/imports" : {
+      "get" : {
+        "operationId" : "recent_1",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ImportBatch"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "import-controller" ]
+      },
+      "post" : {
+        "operationId" : "importCsv",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "accountId",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "properties" : {
+                  "file" : {
+                    "format" : "binary",
+                    "type" : "string"
+                  }
+                },
+                "required" : [ "file" ],
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ImportBatch"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "import-controller" ]
+      }
+    },
+    "/api/v1/income-sources" : {
+      "get" : {
+        "operationId" : "list_1",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/IncomeSummary"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "income-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_2",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IncomeSourceRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/IncomeSource"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "income-controller" ]
+      }
+    },
+    "/api/v1/income-sources/{id}" : {
+      "delete" : {
+        "operationId" : "delete_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "income-controller" ]
+      },
+      "put" : {
+        "operationId" : "update_2",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IncomeSourceRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/IncomeSource"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "income-controller" ]
+      }
+    },
+    "/api/v1/income/pay-calculator" : {
+      "post" : {
+        "operationId" : "calculate",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PayCalculationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PayBreakdown"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "income-controller" ]
+      }
+    },
+    "/api/v1/insights" : {
+      "get" : {
+        "operationId" : "insights",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Insight"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dashboard-controller" ]
+      }
+    },
+    "/api/v1/money-movements" : {
+      "get" : {
+        "operationId" : "recent",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "accountId",
+          "required" : false,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "default" : 10,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/MoneyMovement"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "money-movement-controller" ]
+      },
+      "post" : {
+        "operationId" : "record",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MoneyMovementRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MoneyMovement"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "money-movement-controller" ]
+      }
+    },
+    "/api/v1/planning/affordability" : {
+      "post" : {
+        "operationId" : "affordability",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PurchaseRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Affordability"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/planning/loan" : {
+      "post" : {
+        "operationId" : "loan",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoanRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoanQuote"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/planning/purchase-impact" : {
+      "post" : {
+        "operationId" : "purchaseImpact",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PurchaseImpactRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurchaseImpact"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/planning/purchase-plans" : {
+      "get" : {
+        "operationId" : "plans",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/PurchasePlan"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      },
+      "post" : {
+        "operationId" : "create_1",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PurchaseRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurchasePlan"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/planning/purchase-plans/{id}" : {
+      "delete" : {
+        "operationId" : "delete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      },
+      "get" : {
+        "operationId" : "get_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurchasePlan"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      },
+      "put" : {
+        "operationId" : "update_1",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PurchaseRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurchasePlan"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/planning/purchase-plans/{id}/goal" : {
+      "post" : {
+        "operationId" : "startSaving",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurchasePlan"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "planning-controller" ]
+      }
+    },
+    "/api/v1/preferences" : {
+      "get" : {
+        "operationId" : "get_4",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Preferences"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "preferences-controller" ]
+      },
+      "patch" : {
+        "operationId" : "update_6",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PreferencesRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Preferences"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "preferences-controller" ]
+      }
+    },
+    "/api/v1/preferences/emergency-fund-reminder/snooze" : {
+      "post" : {
+        "operationId" : "snoozeEmergencyFundReminder",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Preferences"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "preferences-controller" ]
+      }
+    },
+    "/api/v1/preferences/home-layout" : {
+      "put" : {
+        "operationId" : "saveHomeLayout",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HomeLayoutRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Preferences"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "preferences-controller" ]
+      }
+    },
+    "/api/v1/profile" : {
+      "get" : {
+        "operationId" : "get",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profile"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "profile-controller" ]
+      },
+      "put" : {
+        "operationId" : "update",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProfileRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Profile"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "profile-controller" ]
+      }
+    },
+    "/api/v1/progress" : {
+      "get" : {
+        "operationId" : "progress",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Progress"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "progress-controller" ]
+      }
+    },
+    "/api/v1/transactions" : {
+      "get" : {
+        "operationId" : "list",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "accountId",
+          "required" : false,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "categoryId",
+          "required" : false,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "uncategorised",
+          "required" : false,
+          "schema" : {
+            "default" : false,
+            "type" : "boolean"
+          }
+        }, {
+          "in" : "query",
+          "name" : "from",
+          "required" : false,
+          "schema" : {
+            "format" : "date",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "to",
+          "required" : false,
+          "schema" : {
+            "format" : "date",
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "search",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "direction",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "IN", "OUT" ],
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "cursor",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "required" : false,
+          "schema" : {
+            "default" : 50,
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseTransaction"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      },
+      "post" : {
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateTransactionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            },
+            "description" : "Created"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      }
+    },
+    "/api/v1/transactions/categorise" : {
+      "post" : {
+        "operationId" : "categorise",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CategoriseTransactionsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategoriseResult"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      }
+    },
+    "/api/v1/transactions/recategorise" : {
+      "post" : {
+        "operationId" : "recategorise",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RecategoriseResult"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      }
+    },
+    "/api/v1/transactions/{id}" : {
+      "delete" : {
+        "operationId" : "delete_4",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      },
+      "get" : {
+        "operationId" : "get_3",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      },
+      "patch" : {
+        "operationId" : "update_5",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateTransactionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      }
+    },
+    "/api/v1/transactions/{id}/category" : {
+      "put" : {
+        "operationId" : "setCategory",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SetTransactionCategoryRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "transaction-controller" ]
+      }
+    }
+  },
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "servers" : [ {
+    "description" : "Generated server url",
+    "url" : "http://localhost"
+  } ]
+}
