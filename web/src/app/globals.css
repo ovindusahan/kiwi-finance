@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --surface-2: #f1f4f7;
+  --panel: #f8fafc;
+  --figure: #0f1f55;
+  --surface-3: #e4e9ee;
+  --border: #dde3ea;
+  --text: #14212e;
+  --text-2: #3d4b59;
+  --muted: #566372;
+  --navy: #003a5d;
+  --navy-2: #0072b8;
+  --on-navy: #ffffff;
+  --brand: #0b6aa8;
+  --brand-strong: #08527f;
+  --brand-soft: #e7f1f8;
+  --on-brand: #ffffff;
+  --on-warm: #ffffff;
+  --on-danger: #ffffff;
+  --warm: #a8420a;
+  --warm-strong: #7f3207;
+  --warm-soft: #fdf0e6;
+  --sky: #0b6aa8;
+  --sky-soft: #e7f1f8;
+  --lilac: #5b4bd6;
+  --lilac-soft: #efedfc;
+  --gold: #8a5b00;
+  --gold-soft: #fdf3d9;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --good: #136c34;
+  --good-soft: #e7f5ec;
+  --warning: #8a5b00;
+  --chart-in: #2a78d6;
+  --chart-out: #eb6834;
+  --chart-grid: #e9edf2;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --shadow: none;
+  --shadow-lg: 0 8px 24px rgba(20, 33, 46, 0.12);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-panel: var(--panel);
+  --color-figure: var(--figure);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
+  --color-on-warm: var(--on-warm);
+  --color-on-danger: var(--on-danger);
+  --color-warm: var(--warm);
+  --color-warm-strong: var(--warm-strong);
+  --color-warm-soft: var(--warm-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-lilac: var(--lilac);
+  --color-lilac-soft: var(--lilac-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-good: var(--good);
+  --color-warning: var(--warning);
+  --color-good-soft: var(--good-soft);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-on-navy: var(--on-navy);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: var(--shadow);
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 12px;
+  --radius-3xl: 16px;
+  --shadow-pop: var(--shadow-lg);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--brand-soft);
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+  50% {
+    transform: rotate(3deg) scale(1.06);
+  }
+}
+
+/* The headline card on a screen: a white card like every other. */
+@utility hero-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+/* Headline numbers. */
+@utility figure {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@utility animate-rise {
+  animation: rise 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@utility animate-pop {
+  animation: pop-in 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+@utility animate-flicker {
+  animation: flicker 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
