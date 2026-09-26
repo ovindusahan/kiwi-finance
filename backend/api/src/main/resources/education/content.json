@@ -1,0 +1,197 @@
+{
+  "guides": [
+    {
+      "slug": "emergency-fund",
+      "title": "Your emergency fund",
+      "summary": "How much to keep, where to keep it, and how to rebuild it after you use it.",
+      "topic": "SAVING",
+      "readingMinutes": 4,
+      "sections": [
+        {
+          "heading": "What it's for",
+          "body": "An emergency fund is money set aside for things you can't plan for: losing your job, an urgent car repair, a vet bill or a last-minute flight home. Having it means a surprise doesn't turn into credit card debt or a payday loan."
+        },
+        {
+          "heading": "How much you need",
+          "body": "A common guide is three to six months of essential costs. Kiwi Finance works out your number from what you actually spend on rent or mortgage, power, groceries, transport, insurance and other essentials. We suggest more months if your income varies, you're self-employed, others rely on you, or your household has one income."
+        },
+        {
+          "heading": "Start small",
+          "body": "Your first milestone is $1,000. That covers most everyday emergencies. Next aim for one month of essentials, then three, then your full target."
+        },
+        {
+          "heading": "Where to keep it",
+          "body": "Keep it in a separate savings account you can reach within a day or two, so it's easy to get to but not mixed in with your spending money. KiwiSaver, term deposits and shares aren't good homes for an emergency fund because you can't reliably get the money out quickly or the value can drop when you need it."
+        },
+        {
+          "heading": "Building it",
+          "body": "Set up an automatic transfer on payday, even a small one. Put windfalls such as a tax refund or a bonus straight in. Kiwi Finance suggests an amount that builds your fund within about a year without using more than half of what you usually have left over."
+        },
+        {
+          "heading": "Using and refilling it",
+          "body": "Use it for genuine emergencies, not planned purchases like a holiday. If you do use it, pause other goals and refill it first. Review your target once a year or whenever your rent, mortgage or bills change."
+        }
+      ]
+    },
+    {
+      "slug": "budgeting-basics",
+      "title": "A budget that fits real life",
+      "summary": "Start from what you really spend, plan for the irregular costs, and pay yourself first.",
+      "topic": "BUDGETING",
+      "readingMinutes": 4,
+      "sections": [
+        {
+          "heading": "Start from reality",
+          "body": "Budgets fail when they're built on wishful thinking. Kiwi Finance starts with what you usually spend in each category, then suggests changes you can actually stick to."
+        },
+        {
+          "heading": "Essentials and lifestyle",
+          "body": "Essentials are costs that continue no matter what: housing, power, groceries, transport, insurance. Lifestyle is everything you choose: eating out, takeaways, subscriptions, entertainment. Lifestyle is where most savings come from."
+        },
+        {
+          "heading": "Plan for irregular costs",
+          "body": "Car registration, WOF, insurance, school costs and Christmas don't arrive every month, but they do arrive. Spread them across the year by setting a little aside each month so they never feel like a shock."
+        },
+        {
+          "heading": "Pay yourself first",
+          "body": "Move money to savings on payday, before you spend. Treat saving like a bill. What's left is yours to spend without guilt."
+        },
+        {
+          "heading": "Check in monthly",
+          "body": "Look at your budget once a month. If you go over the same category every month, the limit is unrealistic: change it and find the money elsewhere."
+        }
+      ]
+    },
+    {
+      "slug": "kiwisaver-basics",
+      "title": "KiwiSaver in a nutshell",
+      "summary": "Contribution rates, what your employer and the government add, and first-home withdrawals.",
+      "topic": "KIWISAVER",
+      "readingMinutes": 5,
+      "sections": [
+        {
+          "heading": "What KiwiSaver is",
+          "body": "KiwiSaver is a voluntary savings scheme to help New Zealanders save for retirement and, for many, a first home. Your money is invested in a fund you choose and is generally locked in until you turn 65."
+        },
+        {
+          "heading": "Your contributions",
+          "body": "If you're employed, you contribute a percentage of your gross pay. From 1 April 2026 the default rate is 3.5%, rising to 4% from 1 April 2028. You can also choose 4%, 6%, 8% or 10%, and you can apply for a temporary reduction to 3%."
+        },
+        {
+          "heading": "Your employer's contribution",
+          "body": "Most employers must contribute at least the default rate on top of your pay. Their contribution is taxed through employer superannuation contribution tax (ESCT) before it reaches your account."
+        },
+        {
+          "heading": "The government contribution",
+          "body": "From 1 July 2025 the government adds 25 cents for every dollar you contribute, up to $260.72 a year. To get the full amount, contribute at least $1,042.86 between 1 July and 30 June. People earning over $180,000 a year don't receive it."
+        },
+        {
+          "heading": "Buying your first home",
+          "body": "After at least three years in KiwiSaver you may be able to withdraw your savings towards your first home, leaving at least $1,000 in your account. Kiwi Finance can include this in a house deposit plan if you tell us you're a first home buyer."
+        },
+        {
+          "heading": "Choosing a fund",
+          "body": "Funds range from conservative to aggressive. Higher-growth funds usually rise and fall more along the way. Compare fees and think about when you'll need the money. For personal advice, talk to a licensed financial adviser."
+        }
+      ]
+    },
+    {
+      "slug": "understanding-your-payslip",
+      "title": "Understanding your payslip",
+      "summary": "Where your gross pay goes: PAYE, ACC, KiwiSaver and student loan repayments.",
+      "topic": "INCOME",
+      "readingMinutes": 4,
+      "sections": [
+        {
+          "heading": "Gross and take-home pay",
+          "body": "Gross pay is what you earn before deductions. Take-home pay is what lands in your bank account. The difference is tax and other deductions your employer pays on your behalf."
+        },
+        {
+          "heading": "PAYE",
+          "body": "Pay as you earn (PAYE) is income tax taken from each pay. New Zealand uses progressive rates: 10.5% on the first $15,600 a year, 17.5% up to $53,500, 30% up to $78,100, 33% up to $180,000 and 39% above that."
+        },
+        {
+          "heading": "ACC earners' levy",
+          "body": "The ACC earners' levy funds cover for injuries outside work. For the 2026/27 tax year it is 1.75% of your earnings, up to a maximum of $156,641 of earnings a year."
+        },
+        {
+          "heading": "Student loan repayments",
+          "body": "If you have a student loan and live in New Zealand, 12% of every dollar you earn over the repayment threshold of $24,128 a year goes towards your loan."
+        },
+        {
+          "heading": "Tax codes",
+          "body": "Your tax code tells your employer how much tax to deduct. M is for your main income, and ME if you qualify for the Independent Earner Tax Credit. Second jobs use a secondary code such as S, SH or ST, which taxes that income at a flat rate. Add SL if you have a student loan."
+        },
+        {
+          "heading": "Check your numbers",
+          "body": "Use the pay calculator in Kiwi Finance to see each deduction worked out for the right tax year."
+        }
+      ]
+    },
+    {
+      "slug": "saving-for-a-house-deposit",
+      "title": "Saving for a house deposit",
+      "summary": "How big a deposit to aim for, using KiwiSaver, and the costs people forget.",
+      "topic": "PLANNING",
+      "readingMinutes": 5,
+      "sections": [
+        {
+          "heading": "How big a deposit",
+          "body": "Banks often ask for a 20% deposit for a home you'll live in. Some will lend with less, but low-deposit lending is limited and can cost more. Kiwi Finance lets you plan for whatever deposit you choose."
+        },
+        {
+          "heading": "Using KiwiSaver",
+          "body": "If you've been in KiwiSaver for at least three years and haven't owned a home before, you may be able to put most of your KiwiSaver balance towards your deposit. Turn on 'first home' in a purchase plan to include it."
+        },
+        {
+          "heading": "Costs beyond the deposit",
+          "body": "Budget for a lawyer or conveyancer, a builder's report, a valuation if your bank needs one, moving costs and insurance from the day you take ownership."
+        },
+        {
+          "heading": "Keep your safety net",
+          "body": "Don't drain your emergency fund for a deposit. Unexpected costs often turn up in the first year of owning a home."
+        }
+      ]
+    },
+    {
+      "slug": "true-cost-of-a-car",
+      "title": "The true cost of a car",
+      "summary": "Cash or finance, the interest you'll really pay, and the running costs that come after.",
+      "topic": "PLANNING",
+      "readingMinutes": 3,
+      "sections": [
+        {
+          "heading": "Cash or finance",
+          "body": "Paying cash costs nothing extra. Finance spreads the cost but adds interest and often fees. Kiwi Finance shows the repayments, the total interest and whether the repayments fit your budget."
+        },
+        {
+          "heading": "Running costs",
+          "body": "Add fuel or charging, insurance, registration, WOF, servicing, tyres and parking to your budget. These often add up to more than people expect."
+        },
+        {
+          "heading": "Depreciation",
+          "body": "Most cars lose value quickly, especially in the first few years. A reliable used car can be a much cheaper way to get around."
+        }
+      ]
+    }
+  ],
+  "glossary": [
+    { "term": "ACC earners' levy", "definition": "A deduction from your pay that funds ACC cover for injuries outside work." },
+    { "term": "Budget", "definition": "A plan for how much you'll spend in each category each month." },
+    { "term": "Emergency fund", "definition": "Savings set aside for unexpected costs or a drop in income, usually three to six months of essential spending." },
+    { "term": "Essentials", "definition": "Costs that continue whatever happens, such as rent, power, groceries, transport and insurance." },
+    { "term": "ESCT", "definition": "Employer superannuation contribution tax: tax on the money your employer pays into your KiwiSaver." },
+    { "term": "Gross pay", "definition": "Your pay before tax and other deductions." },
+    { "term": "IETC", "definition": "Independent Earner Tax Credit: up to $520 a year for eligible people earning between $24,000 and $70,000. Uses tax code ME." },
+    { "term": "KiwiSaver", "definition": "A voluntary savings scheme for retirement that can also help with buying a first home." },
+    { "term": "Lifestyle spending", "definition": "Spending you choose, such as eating out, entertainment and subscriptions." },
+    { "term": "PAYE", "definition": "Pay as you earn: income tax your employer deducts from each pay." },
+    { "term": "PIE", "definition": "Portfolio investment entity: a type of fund, including most KiwiSaver funds, taxed at your prescribed investor rate of 10.5%, 17.5% or 28%." },
+    { "term": "RWT", "definition": "Resident withholding tax: tax deducted from interest you earn, at a rate based on your income." },
+    { "term": "Savings rate", "definition": "The share of your take-home pay you don't spend." },
+    { "term": "Sinking fund", "definition": "Money set aside a little at a time for a known, irregular cost such as car registration." },
+    { "term": "Take-home pay", "definition": "What arrives in your bank account after tax and deductions." },
+    { "term": "Tax code", "definition": "A code such as M, ME or S that tells your employer how much tax to deduct." },
+    { "term": "Tax year", "definition": "In New Zealand, the year from 1 April to 31 March used for income tax." }
+  ]
+}

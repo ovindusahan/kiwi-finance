@@ -1,0 +1,11 @@
+# Runs the API against its own Akahu stand-in and creates a demo account. Combine with the local
+# profile: --spring.profiles.active=local,sandbox
+kiwi:
+  akahu:
+    api-url: http://localhost:${server.port:8080}/sandbox/akahu/v1
+    oauth-url: http://localhost:${server.port:8080}/sandbox/akahu/oauth
+    app-token: app_token_sandbox_registered
+    app-secret: sandbox-secret
+    redirect-uri: http://localhost:3000/connect/akahu/callback
+  sandbox:
+    seed-demo: true
