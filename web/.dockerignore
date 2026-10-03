@@ -1,0 +1,8 @@
+node_modules
+.next
+demo/dist
+demo/fixtures.json
+test-results
+playwright-report
+tsconfig.tsbuildinfo
+.env*.local
