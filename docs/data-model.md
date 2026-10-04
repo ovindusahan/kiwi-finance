@@ -200,7 +200,8 @@ erDiagram
   value copied to another row cannot be decrypted. `credentials_key_id` allows key rotation.
 - A partial unique index allows one active connection per person and provider.
 - `sync_locked_until` is a lease taken with a compare-and-set update, so two servers can
-  never sync the same connection at once.
+  never sync the same connection at once. It is released in the same transaction that records
+  the sync's outcome, so a sync that shows as finished can always be followed by another.
 - A feed account only syncs when the person turns it on. Turning it on creates or links a
   Kiwi Finance account with `managed_by = BANK_FEED`.
 

@@ -151,6 +151,7 @@ public class BankSyncService {
         int accountsSynced = 0;
         int created = 0;
         int updated = 0;
+        boolean recorded = false;
         try {
             BankConnection connection = connections.findById(connectionId).orElseThrow();
             BankFeedClient client = clients.forProvider(connection.getProvider());
@@ -196,7 +197,10 @@ public class BankSyncService {
                         .orElseThrow()
                         .succeed(clock.instant(), finalAccounts, finalCreated, finalUpdated);
                 connections.findById(connectionId).orElseThrow().markSynced(now);
+                // Released with the result, so a sync that looks finished can always be followed by another.
+                connections.releaseSyncLease(connectionId);
             });
+            recorded = true;
         } catch (BankFeedException e) {
             log.warn("Sync {} for connection {} failed: {}", runId, connectionId, e.getMessage());
             fail(
@@ -207,11 +211,17 @@ public class BankSyncService {
                     accountsSynced,
                     created,
                     updated);
+            recorded = true;
         } catch (RuntimeException e) {
             log.error("Sync {} for connection {} failed unexpectedly", runId, connectionId, e);
             fail(runId, connectionId, "internal_error", false, accountsSynced, created, updated);
+            recorded = true;
         } finally {
-            transaction.executeWithoutResult(status -> connections.releaseSyncLease(connectionId));
+            // Recording the outcome releases the lease. Only release it here if that never happened,
+            // so this can't free a lease a newer sync has since taken.
+            if (!recorded) {
+                transaction.executeWithoutResult(status -> connections.releaseSyncLease(connectionId));
+            }
         }
     }
 
@@ -249,6 +259,7 @@ public class BankSyncService {
             if (unauthorised) {
                 connections.findById(connectionId).orElseThrow().requireReauthorisation();
             }
+            connections.releaseSyncLease(connectionId);
         });
     }
 }

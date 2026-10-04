@@ -245,6 +245,7 @@ class AkahuIntegrationTest extends IntegrationTestBase {
         assertThat(reconnected).isEqualTo(connectionId);
         patchAs(user, feedAccountPath(connectionId, everyday), Map.of("syncEnabled", true))
                 .andExpect(jsonPath("$.linkedAccountId").value(accountId));
+        awaitSyncFinished(user, connectionId);
     }
 
     @Test
