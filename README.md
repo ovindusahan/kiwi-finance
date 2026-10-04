@@ -59,7 +59,7 @@ English explanation of how it was worked out and what it assumes.
 
 <div align="center">
 
-**[Try the interactive demo](#try-the-demo)** with a sample customer, no setup needed.
+**[Try the live demo](https://ovindusahan.github.io/kiwi-finance/)** with a sample customer, no sign-up needed.
 
 </div>
 
@@ -203,10 +203,16 @@ Run these checks before pushing. CI runs the same checks on GitHub, kept lean so
 Runs on the same branch cancel each other, dependencies are cached, and logs are kept for
 five days only when something fails.
 
+When CI passes on `main`, the **Deploy demo** workflow rebuilds the demo from fresh sandbox
+data and publishes it to GitHub Pages.
+
 ### Try the demo
 
-The web app can be built into a single HTML file that runs the real interface on recorded
-sandbox data, with no server. It is handy for showing the product to someone.
+The live demo at **https://ovindusahan.github.io/kiwi-finance/** runs the real interface on
+recorded sandbox data for a sample customer, with no server behind it. Changes you make in it
+stay in your browser tab and are never saved.
+
+To build it yourself:
 
 ```bash
 cd web
