@@ -1,0 +1,95 @@
+name: Deploy demo
+
+# Publishes the single-file demo to GitHub Pages after CI passes on main.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build demo
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: kiwi
+          POSTGRES_PASSWORD: kiwi
+          POSTGRES_DB: kiwi_finance
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U kiwi -d kiwi_finance"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-read-only: true
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Start the API with the Akahu sandbox
+        working-directory: backend
+        run: |
+          ./gradlew :api:bootJar
+          nohup java -jar api/build/libs/api-0.1.0-SNAPSHOT.jar --spring.profiles.active=local,sandbox > ../api.log 2>&1 &
+      - name: Install web dependencies
+        working-directory: web
+        run: npm ci --no-audit --no-fund
+      - name: Wait for the demo account
+        run: |
+          for attempt in $(seq 1 90); do
+            if grep -q "Demo account ready" api.log; then exit 0; fi
+            sleep 2
+          done
+          cat api.log
+          exit 1
+      - name: Record the demo data and build the demo
+        working-directory: web
+        run: |
+          npm run demo:record
+          npm run demo:build
+          mkdir -p ../site
+          cp demo/dist/index.html ../site/index.html
+          touch ../site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
