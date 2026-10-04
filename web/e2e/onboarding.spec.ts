@@ -221,6 +221,8 @@ test("chooses an emergency fund account and moves money into it", async ({ page 
 
   await page.getByRole("button", { name: "Add money" }).click();
   const dialog = page.getByRole("dialog");
+  await dialog.getByLabel("Amount").fill("30527564");
+  await expect(dialog.getByText(/would take Everyday more than \$100 overdrawn/)).toBeVisible();
   await dialog.getByLabel("Amount").fill("300");
   await dialog.getByRole("button", { name: "Move money" }).click();
   await expect(page.getByText(/Moved \$300.00 to Rainy day/)).toBeVisible();

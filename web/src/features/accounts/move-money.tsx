@@ -14,6 +14,9 @@ import { centsToDollarsInput, formatMoney, parseDollars } from "@/lib/format";
 
 type MovementType = MoneyMovementRequest["type"];
 
+/** How far below zero a recorded move can take an everyday, savings or cash account. */
+const OVERDRAFT_CENTS = 10_000;
+
 /** What the dialog starts with, so a screen can open it already pointed at the right accounts. */
 export type MoveMoneyDefaults = {
   type?: MovementType;
@@ -76,6 +79,14 @@ function MoveMoneyDialog({ defaults, onClose }: { defaults: MoveMoneyDefaults; o
   const fromBank = [needsFrom ? fromAccount : null, needsTo ? toAccount : null].some(
     (account) => account?.managedBy === "BANK_FEED",
   );
+  // Money can only leave an account that holds it, with a small overdraft; spending on a card or
+  // loan adds to the debt.
+  const available =
+    needsFrom && fromAccount && fromAccount.type !== "CREDIT_CARD" && fromAccount.type !== "LOAN"
+      ? Math.max(0, fromAccount.balance.cents + OVERDRAFT_CENTS)
+      : null;
+  const typedCents = parseDollars(amount);
+  const tooMuch = available != null && typedCents != null && typedCents > available;
   const categoryChoices = (categories ?? []).filter((category: Category) =>
     type === "WITHDRAWAL"
       ? ["ESSENTIALS", "LIFESTYLE", "DEBT"].includes(category.group)
@@ -95,6 +106,13 @@ function MoveMoneyDialog({ defaults, onClose }: { defaults: MoveMoneyDefaults; o
     }
     if (type === "TRANSFER" && from === to) {
       toast("Choose two different accounts.", "error");
+      return;
+    }
+    if (tooMuch) {
+      toast(
+        `You can take up to ${formatMoney(available ?? 0)} from ${fromAccount?.name}, which allows a $100 overdraft.`,
+        "error",
+      );
       return;
     }
     record.mutate(
@@ -140,7 +158,19 @@ function MoveMoneyDialog({ defaults, onClose }: { defaults: MoveMoneyDefaults; o
             ) : null}
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Field label="Amount">
+            <Field
+              label="Amount"
+              hint={
+                available != null
+                  ? `Up to ${formatMoney(available)} from ${fromAccount?.name}, including a $100 overdraft`
+                  : undefined
+              }
+              error={
+                tooMuch
+                  ? `That would take ${fromAccount?.name} more than $100 overdrawn. Enter ${formatMoney(available ?? 0)} or less.`
+                  : undefined
+              }
+            >
               {(props) => (
                 <MoneyInput {...props} value={amount} onChange={(event) => setAmount(event.target.value)} />
               )}

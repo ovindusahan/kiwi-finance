@@ -10,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import nz.kiwifinance.account.Account;
 import nz.kiwifinance.account.AccountService;
+import nz.kiwifinance.account.AccountType;
 import nz.kiwifinance.account.ManagedBy;
 import nz.kiwifinance.common.error.ApiException;
 import nz.kiwifinance.common.error.ErrorCode;
 import nz.kiwifinance.common.web.MoneyResponse;
+import nz.kiwifinance.engine.money.Money;
 import nz.kiwifinance.engine.time.NzTime;
 import nz.kiwifinance.transaction.TransactionService;
 import org.springframework.data.domain.Limit;
@@ -32,6 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MoneyMovementService {
 
     static final int MAX_RECENT = 50;
+
+    /** How far below zero a recorded move can take an everyday, savings or cash account. */
+    static final long OVERDRAFT_CENTS = 10_000;
 
     private final MoneyMovementRepository movements;
     private final AccountService accounts;
@@ -56,6 +61,9 @@ public class MoneyMovementService {
             case DEPOSIT -> require(to != null && from == null, "Choose the account the money went into.");
         }
         long amount = request.amountCents();
+        if (from != null) {
+            requireFunds(from, amount);
+        }
         String note = request.note() == null || request.note().isBlank()
                 ? null
                 : request.note().trim();
@@ -114,6 +122,26 @@ public class MoneyMovementService {
 
     private Account account(UUID userId, UUID accountId) {
         return accountId == null ? null : accounts.getOpen(userId, accountId);
+    }
+
+    /**
+     * Money can only leave an account that holds it, with a small overdraft of
+     * {@value #OVERDRAFT_CENTS} cents. Credit cards and loans are the exception: spending on them
+     * adds to what is owed.
+     */
+    private static void requireFunds(Account from, long amount) {
+        if (from.getType() == AccountType.CREDIT_CARD || from.getType() == AccountType.LOAN) {
+            return;
+        }
+        long available = Math.max(0, from.getCurrentBalanceCents() + OVERDRAFT_CENTS);
+        if (amount > available) {
+            throw new ApiException(
+                    ErrorCode.INSUFFICIENT_FUNDS,
+                    "You can take up to " + Money.ofCents(available).format() + " from " + from.getName()
+                            + ", which allows a "
+                            + Money.ofCents(OVERDRAFT_CENTS).formatWhole()
+                            + " overdraft. Enter that amount or less.");
+        }
     }
 
     private static boolean fromBank(Account account) {

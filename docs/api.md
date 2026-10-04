@@ -96,7 +96,7 @@ stable `code` that clients can rely on. Validation failures list each field.
 | 405 | `method_not_allowed` |
 | 409 | `email_already_registered`, `account_managed_by_bank_feed`, `account_archived`, `category_read_only`, `category_name_taken`, `transaction_managed_by_bank_feed`, `bank_connection_exists`, `bank_connection_not_active`, `bank_connection_different_user`, `bank_feed_account_link_invalid`, `sync_in_progress`, `akahu_oauth_not_configured`, `goal_not_active` |
 | 413 | `import_too_large` |
-| 422 | `akahu_tokens_rejected`, `import_format_unrecognised` |
+| 422 | `wrong_password`, `insufficient_funds`, `akahu_tokens_rejected`, `import_format_unrecognised` |
 | 429 | `too_many_login_attempts` |
 | 500 | `internal_error` |
 | 502 | `akahu_unavailable` |
@@ -187,7 +187,7 @@ All paths are under `/api/v1`. Endpoints marked **public** need no access token.
 | `GET` `POST` | `/income-sources` | Income sources with take-home pay worked out |
 | `PUT` `DELETE` | `/income-sources/{id}` | Update or delete an income source |
 | `POST` | `/income/pay-calculator` | Gross to take-home pay with PAYE, ACC, KiwiSaver and student loan. **Public** |
-| `GET` `POST` | `/money-movements` | Recent transfers, withdrawals and deposits, or record one. Balances and transactions update straight away; on bank-fed accounts the bank's own transaction replaces the recorded one when it arrives |
+| `GET` `POST` | `/money-movements` | Recent transfers, withdrawals and deposits, or record one. Balances and transactions update straight away; on bank-fed accounts the bank's own transaction replaces the recorded one when it arrives. A move can take an everyday, savings or cash account at most $100 overdrawn (`422 insufficient_funds` otherwise). Credit cards and loans are exempt, as spending on them adds to the debt |
 
 ### Bank feeds
 
