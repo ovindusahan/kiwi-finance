@@ -181,6 +181,12 @@ Branch names are lower case with hyphens, for example `feature/akahu-bank-feeds`
 branch carries everything the feature needs: its code, tests, migrations and documentation.
 Keep branches short-lived and merge them within a few days.
 
+### Releases and the demo
+
+Only the repository owner merges into `main`. A ruleset on `main` blocks direct pushes and
+requires a pull request with passing checks. Merging `develop` into `main` is a release: tag
+it, and the **Deploy demo** workflow publishes the demo to GitHub Pages once CI passes.
+
 ### Commit messages
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/):
