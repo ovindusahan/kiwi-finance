@@ -1,0 +1,57 @@
+name: kiwi-finance
+
+# Runs the whole app on your machine: docker compose up --build, then open http://localhost:3000.
+# For working on the code, start only the database: docker compose up -d postgres
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: kiwi
+      POSTGRES_PASSWORD: kiwi
+      POSTGRES_DB: kiwi_finance
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kiwi -d kiwi_finance"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Local development settings with the Akahu sandbox and the demo account.
+      SPRING_PROFILES_ACTIVE: local,sandbox
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kiwi_finance
+      # Where the browser reaches the app; set automatically in a codespace.
+      KIWI_AKAHU_OAUTHURL: ${KIWI_API_PUBLIC_URL:-http://localhost:8080}/sandbox/akahu/oauth
+      KIWI_AKAHU_REDIRECTURI: ${KIWI_WEB_URL:-http://localhost:3000}/connect/akahu/callback
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/8080'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_SHOW_DEMO_ACCOUNT: "true"
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      KIWI_API_URL: http://api:8080
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres-data:
