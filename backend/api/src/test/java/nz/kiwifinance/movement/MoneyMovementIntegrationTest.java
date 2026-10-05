@@ -130,6 +130,37 @@ class MoneyMovementIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    void anAccountCanGoNoMoreThan100DollarsOverdrawn() throws Exception {
+        record(Map.of("type", "WITHDRAWAL", "fromAccountId", everyday.toString(), "amountCents", 210_001))
+                .andExpect(status().isUnprocessableContent())
+                .andExpect(jsonPath("$.code").value("insufficient_funds"))
+                .andExpect(jsonPath("$.detail")
+                        .value("You can take up to $2,100.00 from Everyday, which allows a $100 overdraft."
+                                + " Enter that amount or less."));
+        record(Map.of(
+                        "type",
+                        "TRANSFER",
+                        "fromAccountId",
+                        everyday.toString(),
+                        "toAccountId",
+                        savings.toString(),
+                        "amountCents",
+                        3_052_756_445L))
+                .andExpect(status().isUnprocessableContent());
+        assertThat(balanceOf(bodyOf(getAs(user, "/api/v1/accounts")), everyday)).isEqualTo(200_000);
+
+        record(Map.of("type", "WITHDRAWAL", "fromAccountId", everyday.toString(), "amountCents", 210_000))
+                .andExpect(status().isCreated());
+        assertThat(balanceOf(bodyOf(getAs(user, "/api/v1/accounts")), everyday)).isEqualTo(-10_000);
+        record(Map.of("type", "WITHDRAWAL", "fromAccountId", everyday.toString(), "amountCents", 1))
+                .andExpect(status().isUnprocessableContent());
+
+        UUID card = account("Visa", "CREDIT_CARD", -50_000);
+        record(Map.of("type", "WITHDRAWAL", "fromAccountId", card.toString(), "amountCents", 30_000))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
     void theBanksCopyReplacesARecordedMoveOnABankFedAccount() throws Exception {
         UUID fed = accountService
                 .createForBankFeed(user.id(), "Bank savings", AccountType.SAVINGS, "ANZ", 300_000)

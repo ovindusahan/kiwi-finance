@@ -2,6 +2,7 @@ import type {
   Account,
   CashWithdrawal,
   Category,
+  Dashboard,
   EmergencyFund,
   Goal,
   GoalPlan,
@@ -40,6 +41,7 @@ let preferences = (data.responses["GET /preferences"] as Preferences | undefined
 };
 const fund = data.responses["GET /emergency-fund"] as EmergencyFund;
 const goals = data.responses["GET /goals"] as Goal[];
+const dashboard = data.responses["GET /dashboard"] as Dashboard;
 const cashWithdrawals = (data.responses["GET /cash-withdrawals"] as CashWithdrawal[] | undefined) ?? [];
 let cashWallet = 0;
 
@@ -54,6 +56,35 @@ function refresh(goal: Goal) {
   if (goal.status === "ACTIVE" && goal.target.cents > 0 && goal.saved.cents >= goal.target.cents) {
     goal.status = "ACHIEVED";
     goal.achievedAt = new Date().toISOString();
+  }
+}
+
+/** Recomputes the home screen's figures from the accounts, the way the API does. */
+function refreshDashboard(netChange: number) {
+  const liquid = accounts.filter((account) => account.liquid).reduce((sum, a) => sum + a.balance.cents, 0);
+  dashboard.netWorth = money(dashboard.netWorth.cents + netChange);
+  dashboard.availableToSpend = money(Math.max(0, liquid - fund.current.cents));
+  const ef = dashboard.emergencyFund;
+  if (ef) {
+    ef.current = money(fund.current.cents);
+    ef.progress = fund.progress;
+    ef.monthsCovered =
+      ef.target.cents > 0
+        ? Math.round((fund.current.cents / (ef.target.cents / ef.targetMonths)) * 10) / 10
+        : 0;
+  }
+}
+
+/** Counts a withdrawal as spending, or a deposit with a source as income, in this month's figures. */
+function countThisMonth(type: unknown, cents: number, categorised: boolean) {
+  const month = dashboard.thisMonth;
+  if (type === "WITHDRAWAL") {
+    month.spending = money(month.spending.cents + cents);
+    month.uncategorisedSpending = money(month.uncategorisedSpending.cents + (categorised ? 0 : cents));
+    month.net = money(month.net.cents - cents);
+  } else if (type === "DEPOSIT" && categorised) {
+    month.income = money(month.income.cents + cents);
+    month.net = money(month.net.cents + cents);
   }
 }
 
@@ -338,8 +369,25 @@ function handle(
     const today = String(body.movedOn ?? new Date().toISOString().slice(0, 10));
     const from = accounts.find((account) => account.id === body.fromAccountId);
     const to = accounts.find((account) => account.id === body.toAccountId);
+    if (!Number.isFinite(cents) || cents <= 0) {
+      return json({ status: 400, code: "validation_failed", detail: "Enter an amount more than $0." }, 400);
+    }
+    const available = from ? Math.max(0, from.balance.cents + 10_000) : Infinity;
+    if (from && from.type !== "CREDIT_CARD" && from.type !== "LOAN" && cents > available) {
+      const limit = (available / 100).toLocaleString("en-NZ", { style: "currency", currency: "NZD" });
+      return json(
+        {
+          status: 422,
+          code: "insufficient_funds",
+          detail: `You can take up to ${limit} from ${from.name}, which allows a $100 overdraft. Enter that amount or less.`,
+        },
+        422,
+      );
+    }
     adjust(from?.id, -cents, to ? `Transfer to ${to.name}` : "Withdrawal", today);
     adjust(to?.id, cents, from ? `Transfer from ${from.name}` : "Deposit", today);
+    refreshDashboard((to ? cents : 0) - (from ? cents : 0));
+    countThisMonth(body.type, cents, Boolean(body.categoryId));
     return json(
       {
         id: `preview-${Date.now()}`,

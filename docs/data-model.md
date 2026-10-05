@@ -200,7 +200,8 @@ erDiagram
   value copied to another row cannot be decrypted. `credentials_key_id` allows key rotation.
 - A partial unique index allows one active connection per person and provider.
 - `sync_locked_until` is a lease taken with a compare-and-set update, so two servers can
-  never sync the same connection at once.
+  never sync the same connection at once. It is released in the same transaction that records
+  the sync's outcome, so a sync that shows as finished can always be followed by another.
 - A feed account only syncs when the person turns it on. Turning it on creates or links a
   Kiwi Finance account with `managed_by = BANK_FEED`.
 
@@ -325,7 +326,8 @@ partial unique index on `accounts`.
 `money_movements` records a transfer, withdrawal or deposit the person tells us about. Each
 creates one transaction per account it touches, linked by `transactions.movement_id`. On a
 bank-fed account that transaction is marked `awaiting_bank_copy` until a bank transaction for the
-same amount arrives within seven days; the recorded one is then removed so nothing is counted twice.
+same amount arrives within seven days; the recorded one is then removed so nothing is counted twice. A move
+can take an account at most $100 overdrawn, unless the account is a credit card or loan.
 
 ## 7. Migrations
 

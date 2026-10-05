@@ -36,6 +36,7 @@ public enum ErrorCode {
     IMPORT_FORMAT_UNRECOGNISED(HttpStatus.UNPROCESSABLE_CONTENT, "File format not recognised"),
     IMPORT_TOO_LARGE(HttpStatus.CONTENT_TOO_LARGE, "File too large"),
     GOAL_NOT_ACTIVE(HttpStatus.CONFLICT, "Goal is not active"),
+    INSUFFICIENT_FUNDS(HttpStatus.UNPROCESSABLE_CONTENT, "Not enough money in the account"),
     TOO_MANY_LOGIN_ATTEMPTS(HttpStatus.TOO_MANY_REQUESTS, "Too many attempts"),
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
 

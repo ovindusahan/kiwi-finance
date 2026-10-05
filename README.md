@@ -47,7 +47,7 @@ English explanation of how it was worked out and what it assumes.
 | **Realistic budgets** | Limits filled in from your actual spending, trimmed towards your own lower-spending months only when you need to save more. Start from common categories before your history builds up. |
 | **Can I afford it?** | A clear verdict, the date you can realistically afford it, and the specific changes that would get you there sooner. Compare saving up with finance, then save the answer as a goal in one click. |
 | **Emergency fund** | Choose the one account that holds your safety net. Its target is sized from your own essential costs, with milestones, a plan per pay and reminders you can turn off. |
-| **Move money** | Record transfers, withdrawals and deposits between your accounts. Every figure, insight and projection updates straight away, and your bank's own transaction replaces the record when it arrives. |
+| **Move money** | Record transfers, withdrawals and deposits between your accounts. An account can go at most $100 overdrawn, every figure, insight and projection updates straight away, and your bank's own transaction replaces the record when it arrives. |
 | **Car and home planner** | Deposit, finance options, running costs and rent saved, with what a purchase does to your budget and other goals, before you commit. Save it as a goal or add its costs to your budget in one click. |
 | **Cash withdrawals** | When an ATM withdrawal comes in, you're asked what the cash went on, so spending and budgets stay accurate. |
 | **Guided setup** | New accounts start with a few short steps: pay, tax code, KiwiSaver, income, accounts and emergency fund. |
